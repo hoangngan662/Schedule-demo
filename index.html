@@ -158,6 +158,23 @@ main{margin-top:-20px;padding:0 12px 24px}.panel{padding:9px 11px 20px}
 /* User-selected background for desktop and mobile. */
 body{background:#283b32 url('assets/page-background.jpg') center center/cover fixed no-repeat;min-height:100vh}
 @media(max-width:820px){body{background:#283b32 url('assets/page-background.jpg') center top/cover no-repeat;background-attachment:scroll}}
+/* Center chevrons independently of font metrics. */
+.cv{display:flex;align-items:center;justify-content:center;align-self:center;padding:0;line-height:1;transform:none;transition:background-color .2s,border-color .2s}
+.cv .chevron{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.row.open .cv{transform:none}.row.open .cv .chevron{transform:rotate(180deg)}
+.cv:hover{background:var(--rs);border-color:var(--red)}
+@media(max-width:820px){.cv .chevron{width:17px;height:17px}.rl summary:after{content:"";width:7px;height:7px;border-right:1.5px solid var(--red);border-bottom:1.5px solid var(--red);transform:rotate(45deg);margin:0 5px 4px 10px;align-self:center}.rl[open] summary:after{content:"";transform:rotate(225deg);margin-bottom:0}}
+@media(prefers-reduced-motion:reduce){.cv,.cv .chevron{transition:none}}
+/* Full-width page composition. */
+header,.bar,.hero,.hi,main,#sr{max-width:none;width:100%}
+main{padding-left:0;padding-right:0}
+.panel{width:100%;border-radius:0;background:var(--bg)}
+.hero{background-size:106.83% auto}
+@media(max-width:820px){main{padding-left:0;padding-right:0}.panel{border-radius:0}.hero{background-size:180% auto}}
+/* Keep the date column without timeline decorations or their spacer. */
+.tl:before,.dot{display:none}
+.row,.row.open{grid-template-columns:70px minmax(0,1fr);column-gap:18px}
+@media(max-width:820px){.row,.row.open{grid-template-columns:46px minmax(0,1fr);column-gap:7px}}
 </style>
 </head>
 <body>
@@ -202,7 +219,7 @@ function row(e){
  var d=ts(e.date),s=st(e),time=e.start?e.start+(e.end?' – '+e.end:''):'Chưa có giờ';
  var th=/^(assets\/|https?:\/\/|\/_blob\/|data:image)/.test(e.thumb||'')?'<img src="'+esc(e.thumb)+'" alt="">':'';
  var h='<div class="row'+(open[e.id]?' open':'')+'"><div class="dt"><b>'+pad(d.getDate())+'</b><small>'+MN[d.getMonth()].slice(0,3)+'</small><i>'+WD[d.getDay()]+'</i></div><div class="dot"></div><div class="card">';
- h+='<div class="hd"><div class="event-heading"><div class="th thumb-'+esc(e.id)+'">'+th+'</div><div class="inf"><div><span class="tg '+ty(e)+'">'+esc(e.type||'Khác')+'</span><span class="tg '+s[0]+'">'+s[1]+'</span></div><div class="t">'+esc(e.name)+'</div><div class="m"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> '+esc(time)+'</span><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2"/></svg> '+esc(e.location||'Đang cập nhật')+'</span></div></div></div><button class="cv" data-tg="'+esc(e.id)+'" aria-label="'+(open[e.id]?'Thu gọn':'Mở chi tiết')+'" aria-expanded="'+!!open[e.id]+'" aria-controls="detail-'+esc(e.id)+'">⌄</button></div>';
+ h+='<div class="hd"><div class="event-heading"><div class="th thumb-'+esc(e.id)+'">'+th+'</div><div class="inf"><div><span class="tg '+ty(e)+'">'+esc(e.type||'Khác')+'</span><span class="tg '+s[0]+'">'+s[1]+'</span></div><div class="t">'+esc(e.name)+'</div><div class="m"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> '+esc(time)+'</span><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2"/></svg> '+esc(e.location||'Đang cập nhật')+'</span></div></div></div><button class="cv" data-tg="'+esc(e.id)+'" aria-label="'+(open[e.id]?'Thu gọn':'Mở chi tiết')+'" aria-expanded="'+!!open[e.id]+'" aria-controls="detail-'+esc(e.id)+'"><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>';
  if(open[e.id])h+=body(e,s,time,d);
  return h+'</div></div>'
 }
@@ -256,5 +273,8 @@ render();fixd();
 </script>
 </body>
 </html>
+
+
+
 
 
