@@ -70,7 +70,7 @@ body{background:#252525 url('assets/schedule-reference.jpg') center/cover fixed;
 header{position:relative;top:0;max-width:1120px;margin:auto;border:0;background:#fffdfbf5}
 .bar{height:58px;padding:7px 34px;gap:22px}.logo{font-size:29px}.logo small{color:var(--red);font-size:7px;text-align:center}
 nav{margin-left:60px;gap:40px;font-size:13px}.ib{background:transparent;color:var(--ink);font-size:27px;width:32px;height:32px}
-.login{background:var(--red);color:white;border:0;border-radius:10px;padding:9px 24px}
+
 .hero{max-width:1120px;margin:auto;min-height:235px;background-image:url('assets/schedule-reference.jpg');background-size:138% auto;background-position:5.4% 7%;background-repeat:no-repeat}
 .hi{visibility:hidden;min-height:235px;padding:0}
 main{max-width:1152px;margin:-25px auto 0;padding:0 16px 35px}
@@ -95,9 +95,9 @@ main{max-width:1152px;margin:-25px auto 0;padding:0 16px 35px}
 .hs{gap:5px}.hs span{font-size:10px;padding:5px 8px}.hs .cp{margin-left:auto}
 .lk{border:0;border-radius:0;padding:12px 0;margin-bottom:8px}.lk b{font-size:11px}.lk u{color:#2761d7;font-size:10px}
 details.rl summary{font-size:12px}.all{grid-column:2;grid-row:2;padding:6px;font-size:11px;border-radius:6px}
-#support,#about{padding:0 8px}footer{color:#fff}
+footer{color:#fff}
 @media(max-width:820px){
-body{background:#fffdfb}header{width:100%}.bar{height:68px;padding:12px 18px}.logo{font-size:27px}.login{display:none}
+body{background:#fffdfb}header{width:100%}.bar{height:68px;padding:12px 18px}.logo{font-size:27px}
 nav.mobile-open{display:flex;position:absolute;top:68px;left:0;right:0;margin:0;padding:15px;background:#fff;gap:20px;box-shadow:0 4px 12px #0001}
 .hero,.hi{min-height:154px}.hero{background-size:180% auto;background-position:6% 7%}
 main{padding:0 12px 24px;margin-top:-20px}.panel{padding:9px 11px 20px;border-radius:18px}
@@ -175,26 +175,45 @@ main{padding-left:0;padding-right:0}
 .tl:before,.dot{display:none}
 .row,.row.open{grid-template-columns:70px minmax(0,1fr);column-gap:18px}
 @media(max-width:820px){.row,.row.open{grid-template-columns:46px minmax(0,1fr);column-gap:7px}}
+.support-empty{font-size:12px;color:var(--mute);margin:6px 0 12px}.tabs button:focus-visible{outline:2px solid #2464da;outline-offset:2px}
+
+.event-gallery{grid-column:1/-1;border-top:1px solid var(--line);padding:14px 0 0;order:4}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.gallery-item{margin:0;min-width:0}.gallery-item button{display:block;width:100%;padding:0;border:0;border-radius:8px;overflow:hidden;background:var(--rs)}
+.gallery-item img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .2s}.gallery-item button:hover img{transform:scale(1.03)}
+.gallery-item figcaption{font-size:12px;color:var(--mute);padding-top:5px;overflow-wrap:anywhere}
+.image-viewer{padding:16px;border:0;border-radius:12px;background:#fff;max-width:92vw;max-height:92vh}.image-viewer::backdrop{background:#000b}
+.image-viewer img{display:block;max-width:85vw;max-height:75vh;object-fit:contain;margin:auto}
+.viewer-head{display:flex;justify-content:flex-end;align-items:center;gap:20px;margin-bottom:12px}.viewer-head button{border:0;background:var(--rs);border-radius:8px;width:36px;height:36px;color:var(--red);font-size:24px}
+@media(max-width:820px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.event-gallery{padding-top:10px}}
+@media(max-width:820px){
+ .row.open .bd>.event-gallery{width:100%;min-width:0;margin:0;padding:10px 0 0}
+ .event-gallery>h4{font-size:12px;font-weight:700;line-height:1.45;padding:8px 0;margin:0 0 6px}
+}
+
+.row.today,.row.today.open{border:1px solid #ed092455;background:linear-gradient(110deg,#fff0ef,#fffdfb);box-shadow:inset 3px 0 0 var(--red)}
+.today-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:4px;background:var(--red);color:#fff;font-size:10px;font-weight:700;margin-bottom:3px}
+.today-badge svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:820px){.row.today,.row.today.open{padding:4px;border-radius:9px}.row.today .bd{width:calc(100% + 53px)}.today-badge{font-size:8px;padding:2px 4px}}
 </style>
 </head>
 <body>
 <header><div class="bar"><button class="ib" id="burger" aria-label="Menu">☰</button>
 <div class="logo">Cường Bạch<small>SCHEDULE HUB</small></div>
-<nav><a class="on" href="#lich">Lịch trình</a><a href="#support">Hướng dẫn support</a><a href="#about">Giới thiệu</a></nav>
-<button class="ib" id="sb" aria-label="Tìm kiếm">⌕</button><button class="login" id="login">Đăng nhập</button></div>
-<div id="sr"><input id="q" placeholder="Tìm tên sự kiện, địa điểm…"></div></header>
+<nav><a class="on" href="#lich">Lịch trình</a></nav>
+</div>
+</header>
 <div class="hero"><div class="hi"><h2><i id="hm">October</i><span>Schedule</span></h2><div><q>Chỉ cần có các bạn, là hành trình nào cũng trở nên rực rỡ.</q><div>– Cường Bạch –</div></div></div></div>
 <main id="lich"><div class="panel">
 <div class="ctl"><div class="mn"><button id="pv">‹</button><b id="cur"></b><button id="nx">›</button><button id="cal"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4m8-4v4M4 10h16m-11 4h2m3 0h2"/></svg><input type="month" id="mi" aria-label="Chọn tháng"></button></div><div class="chips" id="chips"></div></div>
 <div class="tl" id="list"><div class="empty">Đang tải lịch trình…</div></div>
-<section id="support" style="margin-top:28px"><h4 style="color:var(--red)">Hướng dẫn support</h4><p style="color:var(--mute)">Mở rộng lịch trình, chọn tab nền tảng, bấm Copy để sao chép topic / hashtag rồi dán lên nền tảng cần hỗ trợ.</p></section>
-<section id="about"><h4 style="color:var(--red)">Giới thiệu</h4><p style="color:var(--mute)">Trang tổng hợp lịch trình của Cường Bạch (UPRIZE BEX) do fan thực hiện. Vui lòng kiểm tra lại link nguồn chính thức.</p></section>
 </div></main>
 <footer>Fan-made · Lịch trình được cập nhật thường xuyên</footer>
 <div id="toast"></div>
+<dialog id="image-viewer" class="image-viewer" aria-label="Hình ảnh sự kiện"><div class="viewer-head"><button id="viewer-close" aria-label="Đóng ảnh">×</button></div><img id="viewer-image" alt=""></dialog>
 <script>
 /* DỮ LIỆU LỊCH — thêm/sửa sự kiện trong mảng này */
-var all=[{"id": "s1", "date": "2026-10-02", "start": "18:00", "end": "21:00", "type": "Event", "location": "Hà Nội", "name": "Nhạc hội Awaken – Trường Đại học Thăng Long", "order": 1}, {"id": "s2", "date": "2026-10-03", "start": "19:00", "end": "22:00", "type": "Concert", "name": "The New Era Concert", "location": "Trung tâm Hội nghị Quốc gia, Hà Nội", "link": "https://maps.google.com", "source": "https://example.com", "sourceLabel": "Thông báo chính thức từ BTC", "notes": ["Hãy tuân thủ quy định của BTC.", "Không quay chụp ở khu vực hạn chế.", "Giữ trật tự, văn minh và an toàn."], "hashtags": ["#CuongBach", "#UPRIZE", "#UPRIZE_BEX", "#TheNewEra", "#FM127MHZ"], "links": [{"title": "Link livestream (YouTube)", "url": "https://youtube.com/@cuongbach"}, {"title": "Hướng dẫn tham gia", "url": "https://example.com/huong-dan"}], "topics": [{"platform": "Facebook", "text": "Cùng Cường Bạch cháy hết mình tại The New Era Concert hôm nay nhé 🔥"}, {"platform": "Facebook", "text": "The New Era – một chương mới, cùng nhau tạo nên những khoảnh khắc thật rực rỡ! ✨"}, {"platform": "Threads", "text": "The New Era Concert – cùng Cường Bạch rực sáng!"}, {"platform": "TikTok", "text": "Đêm nay The New Era Concert 🔥 #CuongBach"}], "order": 2}, {"id": "s3", "date": "2026-10-10", "start": "08:00", "end": "18:00", "type": "Brand", "location": "Hồ Chí Minh", "name": "Shopee Sao Thi Sao 2 – Shooting", "order": 3}, {"id": "s4", "date": "2026-10-15", "start": "18:00", "end": "21:00", "type": "Event", "location": "Hà Nội", "name": "Fan Meeting – Hà Nội", "order": 4}, {"id": "s5", "date": "2026-10-20", "start": "20:00", "end": "22:00", "type": "TV Show", "location": "VTV3", "name": "Show truyền hình XYZ", "order": 5}],now=new Date(),M=now.getMonth(),Y=now.getFullYear(),TY='',Q='',open={},tab={},CP=[];
+var all=[{"id": "s1", "date": "2026-10-02", "start": "18:00", "end": "21:00", "type": "Event", "location": "Hà Nội", "name": "Nhạc hội Awaken – Trường Đại học Thăng Long", "order": 1, "threads_topic": null, "keyword": null, "event_images": []}, {"id": "s2", "date": "2026-10-03", "start": "19:00", "end": "22:00", "type": "Concert", "name": "The New Era Concert", "location": "Trung tâm Hội nghị Quốc gia, Hà Nội", "link": "https://maps.google.com", "source": "https://example.com", "sourceLabel": "Thông báo chính thức từ BTC", "notes": ["Hãy tuân thủ quy định của BTC.", "Không quay chụp ở khu vực hạn chế.", "Giữ trật tự, văn minh và an toàn."], "hashtags": ["#CuongBach", "#UPRIZE", "#UPRIZE_BEX", "#TheNewEra", "#FM127MHZ"], "links": [{"title": "Link livestream (YouTube)", "url": "https://youtube.com/@cuongbach"}, {"title": "Hướng dẫn tham gia", "url": "https://example.com/huong-dan"}], "order": 2, "threads_topic": "The New Era Concert – cùng Cường Bạch rực sáng!", "keyword": null, "event_images": [{"image_url": "assets/page-background.jpg", "caption": "Ảnh demo 1 · Chân dung", "sort_order": 0}, {"image_url": "assets/schedule-desktop.jpg", "caption": "Ảnh demo 2 · Poster lịch trình", "sort_order": 1}, {"image_url": "assets/schedule-reference.jpg", "caption": "Ảnh demo 3 · Poster desktop và mobile", "sort_order": 2}], "event_types": ["Concert", "Livestream"]}, {"id": "s3", "date": "2026-10-10", "start": "08:00", "end": "18:00", "type": "Brand", "location": "Hồ Chí Minh", "name": "Shopee Sao Thi Sao 2 – Shooting", "order": 3, "threads_topic": null, "keyword": null, "event_images": []}, {"id": "s4", "date": "2026-10-15", "start": "18:00", "end": "21:00", "type": "Event", "location": "Hà Nội", "name": "Fan Meeting – Hà Nội", "order": 4, "threads_topic": null, "keyword": null, "event_images": []}, {"id": "s5", "date": "2026-10-20", "start": "20:00", "end": "22:00", "type": "TV Show", "location": "VTV3", "name": "Show truyền hình XYZ", "order": 5, "threads_topic": null, "keyword": null, "event_images": []}, {"id": "demo-today", "date": "2026-10-06", "start": "19:00", "end": "21:00", "type": "Event", "event_types": ["Event", "Livestream"], "name": "Giao lưu cùng Cường Bạch – Demo hôm nay", "location": "Hà Nội · Dữ liệu minh họa", "order": 0, "threads_topic": "Cùng chờ buổi giao lưu tối nay với Cường Bạch! ✨", "keyword": "Cường Bạch giao lưu", "notes": ["Sự kiện demo để minh họa giao diện, không phải lịch trình thực tế."], "event_hashtags": [{"platform": "Facebook", "hashtag": "#CuongBach", "sort_order": 0}, {"platform": "TikTok", "hashtag": "#CuongBach", "sort_order": 0}], "event_images": [{"image_url": "assets/page-background.jpg", "sort_order": 0}], "links": []}],now=new Date(),M=now.getMonth(),Y=now.getFullYear(),TY='',Q='',open={},tab={},CP=[];
 var TYPES=['Concert','Event','Livestream','TV Show','Brand','Khác'],MN=['January','February','March','April','May','June','July','August','September','October','November','December'],WD=['CN','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
 var $=function(i){return document.getElementById(i)};
 function esc(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML}
@@ -204,55 +223,84 @@ function copy(t){function fb(){var a=document.createElement('textarea');a.value=
 function cp(t){CP.push(t);return CP.length-1}
 function ts(d,t){return new Date(d+'T'+(t||'00:00')+':00')}
 function st(e){var n=new Date(),s=ts(e.date,e.start),f=ts(e.endDate||e.date,e.end||'23:59');return n<s?['soon','Sắp diễn ra']:n>f?['done','Đã kết thúc']:['live','Đang diễn ra']}
-function ty(e){return TYPES.indexOf(e.type)<0?'Khác':e.type}
+function eventTypes(e){
+ var values=Array.isArray(e.event_types)?e.event_types:[e.type||'Khác'];
+ var types=values.map(function(t){return TYPES.indexOf(t)<0?'Khác':t}).filter(function(t,i,a){return a.indexOf(t)===i});
+ return types.length?types:['Khác'];
+}
+function typeBadges(e){return eventTypes(e).map(function(t){return '<span class="tg '+esc(t)+'">'+esc(t)+'</span>'}).join('')}
 function pad(n){return n<10?'0'+n:n}
 function chips(){$('chips').innerHTML=['Tất cả'].concat(TYPES).map(function(t){return '<button class="chip'+((t==='Tất cả'?'':t)===TY?' on':'')+'" data-ty="'+(t==='Tất cả'?'':t)+'">'+t+'</button>'}).join('')}
+function todayKey(){
+ var parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Ho_Chi_Minh',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+ var values={};parts.forEach(function(p){values[p.type]=p.value});
+ return values.year+'-'+values.month+'-'+values.day;
+}
+function isToday(e,day){
+ day=day||todayKey();
+ return !!e.date&&e.date<=day&&(e.endDate||e.end_date||e.date)>=day;
+}
 function render(){
  CP=[];$('cur').textContent='Tháng '+(M+1)+' / '+Y;$('hm').textContent=MN[M];$('mi').value=Y+'-'+pad(M+1);chips();
- var q=Q.toLowerCase();
- var ev=all.filter(function(e){if(!e.date)return false;var d=ts(e.date);return d.getMonth()===M&&d.getFullYear()===Y&&(!TY||ty(e)===TY)&&(!q||((e.name||'')+(e.location||'')).toLowerCase().indexOf(q)>=0)})
-  .sort(function(a,b){return (a.date+(a.start||'')).localeCompare(b.date+(b.start||''))||(a.order||0)-(b.order||0)});
+ var q=Q.toLowerCase(),today=todayKey();
+ var ev=all.filter(function(e){if(!e.date)return false;var d=ts(e.date);return d.getMonth()===M&&d.getFullYear()===Y&&(!TY||eventTypes(e).indexOf(TY)>=0)&&(!q||((e.name||'')+(e.location||'')).toLowerCase().indexOf(q)>=0)})
+  .sort(function(a,b){return Number(isToday(b,today))-Number(isToday(a,today))||(a.date+(a.start||'')).localeCompare(b.date+(b.start||''))||(a.order||0)-(b.order||0)});
  if(!ev.length){$('list').innerHTML='<div class="empty">Chưa có lịch trình trong thời gian này 💌<br>Hãy quay lại sau hoặc chọn tháng khác nhé!</div>';return}
  $('list').innerHTML=ev.map(row).join('');
 }
 function row(e){
- var d=ts(e.date),s=st(e),time=e.start?e.start+(e.end?' – '+e.end:''):'Chưa có giờ';
+ var d=ts(e.date),s=st(e),today=isToday(e),time=e.start?e.start+(e.end?' – '+e.end:''):'Chưa có giờ';
  var th=/^(assets\/|https?:\/\/|\/_blob\/|data:image)/.test(e.thumb||'')?'<img src="'+esc(e.thumb)+'" alt="">':'';
- var h='<div class="row'+(open[e.id]?' open':'')+'"><div class="dt"><b>'+pad(d.getDate())+'</b><small>'+MN[d.getMonth()].slice(0,3)+'</small><i>'+WD[d.getDay()]+'</i></div><div class="dot"></div><div class="card">';
- h+='<div class="hd"><div class="event-heading"><div class="th thumb-'+esc(e.id)+'">'+th+'</div><div class="inf"><div><span class="tg '+ty(e)+'">'+esc(e.type||'Khác')+'</span><span class="tg '+s[0]+'">'+s[1]+'</span></div><div class="t">'+esc(e.name)+'</div><div class="m"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> '+esc(time)+'</span><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2"/></svg> '+esc(e.location||'Đang cập nhật')+'</span></div></div></div><button class="cv" data-tg="'+esc(e.id)+'" aria-label="'+(open[e.id]?'Thu gọn':'Mở chi tiết')+'" aria-expanded="'+!!open[e.id]+'" aria-controls="detail-'+esc(e.id)+'"><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>';
+ var h='<div class="row'+(open[e.id]?' open':'')+(today?' today':'')+'"><div class="dt"><b>'+pad(d.getDate())+'</b><small>'+MN[d.getMonth()].slice(0,3)+'</small><i>'+WD[d.getDay()]+'</i></div><div class="dot"></div><div class="card">';
+ h+='<div class="hd"><div class="event-heading"><div class="th thumb-'+esc(e.id)+'">'+th+'</div><div class="inf"><div>'+typeBadges(e)+(today?'<span class="today-badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3 6 0-1 6 4 4v2H6v-2l4-4-1-6ZM12 15v6"/></svg>Hôm nay</span>':'')+'</div><div class="t">'+esc(e.name)+'</div><div class="m"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> '+esc(time)+'</span><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2"/></svg> '+esc(e.location||'Đang cập nhật')+'</span></div></div></div><button class="cv" data-tg="'+esc(e.id)+'" aria-label="'+(open[e.id]?'Thu gọn':'Mở chi tiết')+'" aria-expanded="'+!!open[e.id]+'" aria-controls="detail-'+esc(e.id)+'"><svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div>';
  if(open[e.id])h+=body(e,s,time,d);
  return h+'</div></div>'
 }
 function body(e,s,time,d){
- var tops=Array.isArray(e.topics)?e.topics:[],tags=[].concat.apply([],(Array.isArray(e.hashtags)?e.hashtags:[]).map(function(g){return Array.isArray(g)?g:[g]}));
+ var tabs=['All','Facebook','TikTok','Threads'],cur=tab[e.id]||'All';
+ if(tabs.indexOf(cur)<0)cur='All';
+ var platformTags=Array.isArray(e.event_hashtags)?e.event_hashtags:null;
+ var tags=platformTags?platformTags.filter(function(x){return cur==='All'||x.platform===cur}).map(function(x){return x.hashtag}):[].concat.apply([],(Array.isArray(e.hashtags)?e.hashtags:[]).map(function(g){return Array.isArray(g)?g:[g]}));
+ tags=tags.filter(function(t,i,a){return typeof t==='string'&&t.trim()&&a.indexOf(t)===i});
+ var threadsTopic=e.threads_topic||'',keyword=e.keyword||'';
  var notes=Array.isArray(e.notes)?e.notes:(e.notes?[e.notes]:(e.desc?[e.desc]:[]));
  var links=Array.isArray(e.links)?e.links.filter(function(l){return /^https?:/.test(l.url||'')}):[];
  if(/^https?:/.test(e.link||''))links.splice(1,0,{title:'Bản đồ địa điểm',url:e.link});if(/^https?:/.test(e.source||''))links.splice(2,0,{title:'Thông báo chính thức',url:e.source});
- var plats=[];tops.forEach(function(x){var p=x.platform||'Khác';if(plats.indexOf(p)<0)plats.push(p)});
- var tabs=plats.length>1?plats.concat(['All']):[];var cur=tab[e.id]||(tabs[0]||'All');
- var shown=tops.filter(function(x){return cur==='All'||(x.platform||'Khác')===cur});
  var dd=pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear();
  var h='<div class="bd" id="detail-'+esc(e.id)+'"><div><h4>Thông tin sự kiện</h4>';
  h+='<div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4m8-4v4M4 10h16m-11 4h2m3 0h2"/></svg>Thời gian</span><div>'+esc(time)+' | '+WD[d.getDay()]+', '+dd+(e.endDate?' → '+esc(e.endDate.split('-').reverse().join('/')):'')+'</div></div>';
  h+='<div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2"/></svg>Địa điểm</span><div>'+esc(e.location||'Đang cập nhật')+'</div></div>';
  if(/^https?:/.test(e.link||''))h+='<div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m10 14 4-4m-6 6-2 2a4 4 0 0 1-6-6l4-4m12 8 4-4a4 4 0 0 0-6-6l-2 2"/></svg>Link bản đồ</span><div><a href="'+esc(e.link)+'" target="_blank" rel="noopener">Xem trên Google Maps ↗</a></div></div>';
- h+='<div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8l10 10-8 8L3 11Z"/><circle cx="7" cy="7" r="1"/></svg>Loại sự kiện</span><div>'+esc(e.type||'Khác')+'</div></div><div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8l10 10-8 8L3 11Z"/><circle cx="7" cy="7" r="1"/></svg>Trạng thái</span><div><span class="tg '+s[0]+'">'+s[1]+'</span></div></div>';
+ h+='<div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8l10 10-8 8L3 11Z"/><circle cx="7" cy="7" r="1"/></svg>Loại sự kiện</span><div>'+typeBadges(e)+'</div></div>';
  if(/^https?:/.test(e.source||''))h+='<div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg>Nguồn</span><div><a href="'+esc(e.source)+'" target="_blank" rel="noopener">'+esc(e.sourceLabel||'Thông tin chính thức')+' ↗</a></div></div>';
  if(notes.length)h+='<div class="note"><b>⚠ Lưu ý</b><ul>'+notes.map(function(n){return '<li>'+esc(n)+'</li>'}).join('')+'</ul></div>';
  h+='</div><div><h4>Topic gợi ý</h4>';
  if(tabs.length)h+='<div class="tabs">'+tabs.map(function(p){return '<button data-tab="'+esc(p)+'" data-e="'+esc(e.id)+'" class="'+(p===cur?'on':'')+'">'+esc(p)+'</button>'}).join('')+'</div>';
- if(!tops.length)h+='<p style="color:var(--mute)">Chưa có topic cho lịch này.</p>';
- shown.forEach(function(x){var tx=x.text||String(x);h+='<div class="tp"><div>'+esc(tx)+'</div><button class="cp" data-i="'+cp(tx)+'"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg> Copy</button></div>'});
- if(tags.length)h+='<h4>Hashtag gợi ý</h4><div class="hs">'+tags.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'<button class="cp" data-i="'+cp(tags.join(' '))+'"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg> Copy tất cả hashtag</button></div>';
+ function field(label,value){
+  h+='<h4>'+label+'</h4>';
+  if(value)h+='<div class="tp"><div>'+esc(value)+'</div><button class="cp" aria-label="Copy '+label+'" data-i="'+cp(value)+'">⧉ Copy</button></div>';
+  else h+='<p class="support-empty">Chưa có '+label+'.</p>';
+ }
+ if(cur==='All'||cur==='Threads')field('Threads Topic',threadsTopic);
+ field('Keyword',keyword);
+ if(cur!=='Threads'){
+  h+='<h4>Hashtag</h4>';
+  if(tags.length)h+='<div class="hs">'+tags.map(function(t){return '<span>'+esc(t)+'</span>'}).join('')+'<button class="cp" data-i="'+cp(tags.join(' '))+'">⧉ Copy tất cả hashtag</button></div>';
+  else h+='<p class="support-empty">Chưa có hashtag'+(cur==='All'?'':' cho '+cur)+'.</p>';
+ }
  h+='</div><div><details class="rl" data-d><summary>Link liên quan</summary>';
  if(!links.length)h+='<p style="color:var(--mute)">Chưa có link.</p>';
  links.forEach(function(l,i){h+='<a class="lk" href="'+esc(l.url)+'" target="_blank" rel="noopener"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="m10 9 5 3-5 3Z"/></svg><div><b>'+esc(l.title||'Link')+'</b><u>'+esc(l.url)+'</u></div><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7m0-7L11 13m-1-8H3v16h16v-7"/></svg></a>'});
  h+='</details></div>';
- var allT=tops.map(function(x){return x.text||x}).concat(tags.length?[tags.join(' ')]:[]).join('\n\n');
- if(allT)h+='<button class="all" data-i="'+cp(allT)+'"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg> Copy toàn bộ Topic + Hashtag</button>';
- return h+'</div>'
+ var images=(Array.isArray(e.event_images)?e.event_images:(Array.isArray(e.images)?e.images:[])).map(function(x){return typeof x==='string'?{image_url:x}:x}).filter(function(x){return x&&/^(https?:\/\/|assets\/|data:image\/)/.test(x.image_url||'')}).sort(function(a,b){return (a.sort_order||0)-(b.sort_order||0)});
+ h+='<section class="event-gallery"><h4>Hình ảnh sự kiện'+(images.length?' ('+images.length+')':'')+'</h4>';
+ if(!images.length)h+='<p class="support-empty">Chưa có hình ảnh cho sự kiện này.</p>';
+ else h+='<div class="gallery-grid">'+images.map(function(x,i){var label=x.caption||('Ảnh '+(i+1)+' – '+e.name);return '<figure class="gallery-item"><button data-image="'+esc(x.image_url)+'" data-caption="'+esc(label)+'" aria-label="Xem '+esc(label)+'"><img src="'+esc(x.image_url)+'" alt="'+esc(label)+'" loading="lazy"></button>'+'</figure>'}).join('')+'</div>';
+ return h+'</section></div>'
 }
 document.addEventListener('click',function(ev){
+ var imageButton=ev.target.closest('[data-image]');
+ if(imageButton){$('viewer-image').src=imageButton.getAttribute('data-image');$('viewer-image').alt=imageButton.getAttribute('data-caption');$('image-viewer').showModal();return}
  var t=ev.target.closest('[data-i],[data-tg],[data-tab],[data-ty]');
  if(t){
   if(t.hasAttribute('data-i'))copy(CP[+t.getAttribute('data-i')]);
@@ -264,15 +312,22 @@ function fixd(){if(window.innerWidth>820)[].forEach.call(document.querySelectorA
 function mv(n){M+=n;if(M<0){M=11;Y--}if(M>11){M=0;Y++}render();fixd()}
 $('pv').onclick=function(){mv(-1)};$('nx').onclick=function(){mv(1)};
 $('mi').onchange=function(){var v=this.value.split('-');if(v.length==2){Y=+v[0];M=+v[1]-1;render();fixd()}};
-$('sb').onclick=function(){var r=$('sr');r.style.display=r.style.display==='block'?'none':'block';if(r.style.display==='block')$('q').focus()};
-$('q').oninput=function(){Q=this.value;render();fixd()};
 $('burger').onclick=function(){var n=document.querySelector('nav');n.classList.toggle('mobile-open');this.setAttribute('aria-expanded',n.classList.contains('mobile-open'))};
-$('login').onclick=function(){toast('Chức năng đăng nhập đang được cập nhật')};
 window.addEventListener('resize',function(){document.querySelectorAll('[data-d]').forEach(function(d){d.open=window.innerWidth>820})});
+$('viewer-close').onclick=function(){$('image-viewer').close()};
+$('image-viewer').addEventListener('click',function(ev){if(ev.target===this){var r=this.getBoundingClientRect();if(ev.clientX<r.left||ev.clientX>r.right||ev.clientY<r.top||ev.clientY>r.bottom)this.close()}});
+var lastToday=todayKey();
+function refreshToday(){var day=todayKey();if(day!==lastToday){lastToday=day;render();fixd()}}
+setInterval(refreshToday,60000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)refreshToday()});
 render();fixd();
 </script>
 </body>
 </html>
+
+
+
+
 
 
 
