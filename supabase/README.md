@@ -73,7 +73,11 @@ Bộ đồng bộ sẽ chọn tên chứa main (không phân biệt hoa/thườn
 chọn đầu theo tên, nếu không có chọn ảnh đầu theo tên. Ảnh bìa vẫn nằm trong gallery.
 Adapter ưu tiên image_url của ảnh is_cover; thumbnail_url là ảnh dự phòng.
 
-Các trường này chuẩn bị cho đồng bộ. Chưa triển khai Google Drive API/Edge Function;
-dán link folder vào DB hiện chưa tự lấy ảnh. is_cover không tự tính bằng trigger.
-Bộ đồng bộ phải lấy danh sách file với quyền đọc, cập nhật ảnh và ảnh bìa trong transaction.
-image_url phải là URL hiển thị ảnh, không phải trang xem folder/file.
+Website hiện đọc trực tiếp folder Drive công khai qua API key, theo cách trong file mẫu.
+Dán link vào events.drive_folder_url; cấp quyền Anyone with the link / Viewer cho folder và ảnh.
+Website chỉ đọc ảnh trực tiếp trong folder, không đọc folder con, không ghi vào event_images hoặc Storage.
+Ưu tiên tên chứa main làm ảnh bìa; nếu không có, dùng ảnh đầu theo tên.
+Nếu API lỗi hoặc folder không có ảnh, giữ ảnh từ event_images.
+API key thử nghiệm lấy từ file mẫu, cần thay bằng key riêng và giới hạn Google Drive API/domain khi triển khai.
+Mã nguồn nằm ở drive-gallery.js và được nhúng trong index.html để hỗ trợ file://.
+Chưa có Edge Function đồng bộ. image_url phải là URL ảnh, không phải trang xem folder/file.

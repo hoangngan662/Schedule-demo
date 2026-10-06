@@ -182,6 +182,9 @@ main{padding-left:0;padding-right:0}
 .gallery-item{margin:0;min-width:0}.gallery-item button{display:block;width:100%;padding:0;border:0;border-radius:8px;overflow:hidden;background:var(--rs)}
 .gallery-item img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .2s}.gallery-item button:hover img{transform:scale(1.03)}
 .gallery-item figcaption{font-size:12px;color:var(--mute);padding-top:5px;overflow-wrap:anywhere}
+.gallery-more{margin-top:12px;padding:9px 16px;border:1px solid var(--red);border-radius:8px;background:#fff;color:var(--red);font:inherit;cursor:pointer}
+.gallery-dialog{box-sizing:border-box;width:min(900px,92vw);max-height:90vh;border:0;border-radius:12px;padding:20px;background:#fff;overflow:auto}.gallery-dialog::backdrop{background:#000b}
+.gallery-dialog .viewer-head{justify-content:space-between}.gallery-dialog h3{margin:0;font-size:18px}
 .image-viewer{padding:16px;border:0;border-radius:12px;background:#fff;max-width:92vw;max-height:92vh}.image-viewer::backdrop{background:#000b}
 .image-viewer img{display:block;max-width:85vw;max-height:75vh;object-fit:contain;margin:auto}
 .viewer-head{display:flex;justify-content:flex-end;align-items:center;gap:20px;margin-bottom:12px}.viewer-head button{border:0;background:var(--rs);border-radius:8px;width:36px;height:36px;color:var(--red);font-size:24px}
@@ -210,6 +213,7 @@ main{padding-left:0;padding-right:0}
 </div></main>
 <footer>Fan-made · Lịch trình được cập nhật thường xuyên</footer>
 <div id="toast"></div>
+<dialog id="gallery-dialog" class="gallery-dialog" aria-labelledby="gallery-title"><div class="viewer-head"><h3 id="gallery-title">Hình ảnh sự kiện</h3><button id="gallery-close" aria-label="Đóng gallery">×</button></div><div id="gallery-all" class="gallery-grid"></div></dialog>
 <dialog id="image-viewer" class="image-viewer" aria-label="Hình ảnh sự kiện"><div class="viewer-head"><button id="viewer-close" aria-label="Đóng ảnh">×</button></div><img id="viewer-image" alt=""></dialog>
 <script>
 // Maps Supabase rows to the existing UI data shape; does not connect to Supabase.
@@ -351,11 +355,14 @@ function body(e,s,time,d){
  var images=(Array.isArray(e.event_images)?e.event_images:(Array.isArray(e.images)?e.images:[])).map(function(x){return typeof x==='string'?{image_url:x}:x}).filter(function(x){return x&&/^(https?:\/\/|assets\/|data:image\/)/.test(x.image_url||'')}).sort(function(a,b){return (a.sort_order||0)-(b.sort_order||0)});
  h+='<section class="event-gallery"><h4>Hình ảnh sự kiện'+(images.length?' ('+images.length+')':'')+'</h4>';
  if(!images.length)h+='<p class="support-empty">Chưa có hình ảnh cho sự kiện này.</p>';
- else h+='<div class="gallery-grid">'+images.map(function(x,i){var label=x.caption||('Ảnh '+(i+1)+' – '+e.name);return '<figure class="gallery-item"><button data-image="'+esc(x.image_url)+'" data-caption="'+esc(label)+'" aria-label="Xem '+esc(label)+'"><img src="'+esc(x.image_url)+'" alt="'+esc(label)+'" loading="lazy"></button>'+'</figure>'}).join('')+'</div>';
+ else h+='<div class="gallery-grid">'+images.slice(0,5).map(function(x,i){var label=x.caption||('Ảnh '+(i+1)+' – '+e.name);return '<figure class="gallery-item"><button data-image="'+esc(x.image_url)+'" data-caption="'+esc(label)+'" aria-label="Xem '+esc(label)+'"><img src="'+esc(x.image_url)+'" alt="'+esc(label)+'" loading="lazy"></button>'+'</figure>'}).join('')+'</div>';
+ if(images.length>5)h+='<button class="gallery-more" data-gallery="'+esc(e.id)+'">Xem tất cả '+images.length+' ảnh</button>';
  return h+'</section></div>'
 }
 document.addEventListener('click',function(ev){
  if(ev.target.closest('[data-retry]')){loadEvents();return}
+ var galleryButton=ev.target.closest('[data-gallery]');
+ if(galleryButton){showGallery(galleryButton.getAttribute('data-gallery'));return}
  var imageButton=ev.target.closest('[data-image]');
  if(imageButton){$('viewer-image').src=imageButton.getAttribute('data-image');$('viewer-image').alt=imageButton.getAttribute('data-caption');$('image-viewer').showModal();return}
  var t=ev.target.closest('[data-i],[data-tg],[data-tab],[data-ty]');
@@ -371,12 +378,75 @@ $('pv').onclick=function(){mv(-1)};$('nx').onclick=function(){mv(1)};
 $('mi').onchange=function(){var v=this.value.split('-');if(v.length==2){Y=+v[0];M=+v[1]-1;render();fixd()}};
 $('burger').onclick=function(){var n=document.querySelector('nav');n.classList.toggle('mobile-open');this.setAttribute('aria-expanded',n.classList.contains('mobile-open'))};
 window.addEventListener('resize',function(){document.querySelectorAll('[data-d]').forEach(function(d){d.open=window.innerWidth>820})});
+function showGallery(id){
+ var event=all.find(function(e){return e.id===id});if(!event)return;
+ var images=(event.event_images||[]).filter(function(x){return x&&/^(https?:\/\/|assets\/|data:image\/)/.test(x.image_url||'')}).slice().sort(function(a,b){return (a.sort_order||0)-(b.sort_order||0)});
+ $('gallery-title').textContent=event.name+' · '+images.length+' ảnh';
+ $('gallery-all').innerHTML=images.map(function(x,i){var label=x.caption||('Ảnh '+(i+1)+' – '+event.name);return '<figure class="gallery-item"><button data-image="'+esc(x.image_url)+'" data-caption="'+esc(label)+'" aria-label="Xem '+esc(label)+'"><img src="'+esc(x.image_url)+'" alt="'+esc(label)+'" loading="lazy"></button></figure>'}).join('');
+ $('gallery-dialog').showModal();
+}
+$('gallery-close').onclick=function(){$('gallery-dialog').close()};
+$('gallery-dialog').addEventListener('close',function(){$('gallery-all').innerHTML=''});
+$('gallery-dialog').addEventListener('click',function(ev){if(ev.target===this){var r=this.getBoundingClientRect();if(ev.clientX<r.left||ev.clientX>r.right||ev.clientY<r.top||ev.clientY>r.bottom)this.close()}});
 $('viewer-close').onclick=function(){$('image-viewer').close()};
 $('image-viewer').addEventListener('click',function(ev){if(ev.target===this){var r=this.getBoundingClientRect();if(ev.clientX<r.left||ev.clientX>r.right||ev.clientY<r.top||ev.clientY>r.bottom)this.close()}});
+const GOOGLE_DRIVE_API_KEY = 'AIzaSyCZkRafUsjUWDjcB6HlhQBXgD9tVZUo4so';
+
+function driveFolderInfo(value){
+ try{
+  const url=new URL(value);
+  if(url.hostname!=='drive.google.com') return null;
+  const id=url.pathname.match(/\/folders\/([\w-]+)/)?.[1]||url.searchParams.get('id');
+  if(!id||!/^[-\w]+$/.test(id)) return null;
+  return {id,resourceKey:url.searchParams.get('resourcekey')||''};
+ }catch{return null}
+}
+async function fetchDriveImages(folder,fetcher=fetch){
+ const files=[];
+ let pageToken='';
+ do{
+  const params=new URLSearchParams({key:GOOGLE_DRIVE_API_KEY,
+   q:`'${folder.id}' in parents and trashed=false and mimeType contains 'image/'`,
+   fields:'nextPageToken,files(id,name,mimeType,resourceKey)',pageSize:'1000',orderBy:'name'});
+  if(pageToken) params.set('pageToken',pageToken);
+  const headers={};
+  if(folder.resourceKey) headers['X-Goog-Drive-Resource-Keys']=`${folder.id}/${folder.resourceKey}`;
+  const response=await fetcher('https://www.googleapis.com/drive/v3/files?'+params,{headers,signal:AbortSignal.timeout(15000)});
+  if(!response.ok) throw new Error(`Drive request failed (${response.status})`);
+  const data=await response.json();
+  files.push(...(data.files||[]).filter(file=>file.mimeType?.startsWith('image/')));
+  pageToken=data.nextPageToken||'';
+ }while(pageToken);
+ return files.map((file,index)=>{
+  const params=new URLSearchParams({id:file.id,sz:'w1600'});
+  if(file.resourceKey) params.set('resourcekey',file.resourceKey);
+  return {image_url:'https://drive.google.com/thumbnail?'+params,caption:file.name,
+   file_name:file.name,drive_file_id:file.id,sort_order:index};
+ });
+}
+async function resolveDriveImages(event,folderCache){
+ const folder=driveFolderInfo(event.drive_folder_url);
+ if(!folder) return event;
+ try{
+  const cacheKey=folder.id+'/'+folder.resourceKey;
+  if(!folderCache.has(cacheKey)) folderCache.set(cacheKey,fetchDriveImages(folder));
+  const images=await folderCache.get(cacheKey);
+  if(images.length){
+   const cover=images.find(image=>/main/i.test(image.file_name))||images[0];
+   event.drive_fallback_images=event.event_images;
+   event.drive_fallback_thumb=event.thumb;
+   event.event_images=images;
+   event.thumb=cover.image_url;
+  }
+ }catch(error){console.warn('Không tải được folder Drive của sự kiện '+event.id+': '+error.message)}
+ return event;
+}
 async function loadEvents(){
  loadState='loading';render();
  try{
-  all=(await fetchPublishedEvents()).map(toWebEvent);
+  const events=(await fetchPublishedEvents()).map(toWebEvent);
+  const folderCache=new Map();
+  all=await Promise.all(events.map(event=>resolveDriveImages(event,folderCache)));
   loadState='ready';
  }catch(error){
   all=[];loadState='error';console.error('Schedule loading failed:',error);
