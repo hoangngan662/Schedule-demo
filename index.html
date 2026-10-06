@@ -212,8 +212,61 @@ main{padding-left:0;padding-right:0}
 <div id="toast"></div>
 <dialog id="image-viewer" class="image-viewer" aria-label="Hình ảnh sự kiện"><div class="viewer-head"><button id="viewer-close" aria-label="Đóng ảnh">×</button></div><img id="viewer-image" alt=""></dialog>
 <script>
-/* DỮ LIỆU LỊCH — thêm/sửa sự kiện trong mảng này */
-var all=[{"id": "s1", "date": "2026-10-02", "start": "18:00", "end": "21:00", "type": "Event", "location": "Hà Nội", "name": "Nhạc hội Awaken – Trường Đại học Thăng Long", "order": 1, "threads_topic": null, "keyword": null, "event_images": []}, {"id": "s2", "date": "2026-10-03", "start": "19:00", "end": "22:00", "type": "Concert", "name": "The New Era Concert", "location": "Trung tâm Hội nghị Quốc gia, Hà Nội", "link": "https://maps.google.com", "source": "https://example.com", "sourceLabel": "Thông báo chính thức từ BTC", "notes": ["Hãy tuân thủ quy định của BTC.", "Không quay chụp ở khu vực hạn chế.", "Giữ trật tự, văn minh và an toàn."], "hashtags": ["#CuongBach", "#UPRIZE", "#UPRIZE_BEX", "#TheNewEra", "#FM127MHZ"], "links": [{"title": "Link livestream (YouTube)", "url": "https://youtube.com/@cuongbach"}, {"title": "Hướng dẫn tham gia", "url": "https://example.com/huong-dan"}], "order": 2, "threads_topic": "The New Era Concert – cùng Cường Bạch rực sáng!", "keyword": null, "event_images": [{"image_url": "assets/page-background.jpg", "caption": "Ảnh demo 1 · Chân dung", "sort_order": 0}, {"image_url": "assets/schedule-desktop.jpg", "caption": "Ảnh demo 2 · Poster lịch trình", "sort_order": 1}, {"image_url": "assets/schedule-reference.jpg", "caption": "Ảnh demo 3 · Poster desktop và mobile", "sort_order": 2}], "event_types": ["Concert", "Livestream"]}, {"id": "s3", "date": "2026-10-10", "start": "08:00", "end": "18:00", "type": "Brand", "location": "Hồ Chí Minh", "name": "Shopee Sao Thi Sao 2 – Shooting", "order": 3, "threads_topic": null, "keyword": null, "event_images": []}, {"id": "s4", "date": "2026-10-15", "start": "18:00", "end": "21:00", "type": "Event", "location": "Hà Nội", "name": "Fan Meeting – Hà Nội", "order": 4, "threads_topic": null, "keyword": null, "event_images": []}, {"id": "s5", "date": "2026-10-20", "start": "20:00", "end": "22:00", "type": "TV Show", "location": "VTV3", "name": "Show truyền hình XYZ", "order": 5, "threads_topic": null, "keyword": null, "event_images": []}, {"id": "demo-today", "date": "2026-10-06", "start": "19:00", "end": "21:00", "type": "Event", "event_types": ["Event", "Livestream"], "name": "Giao lưu cùng Cường Bạch – Demo hôm nay", "location": "Hà Nội · Dữ liệu minh họa", "order": 0, "threads_topic": "Cùng chờ buổi giao lưu tối nay với Cường Bạch! ✨", "keyword": "Cường Bạch giao lưu", "notes": ["Sự kiện demo để minh họa giao diện, không phải lịch trình thực tế."], "event_hashtags": [{"platform": "Facebook", "hashtag": "#CuongBach", "sort_order": 0}, {"platform": "TikTok", "hashtag": "#CuongBach", "sort_order": 0}], "event_images": [{"image_url": "assets/page-background.jpg", "sort_order": 0}], "links": []}],now=new Date(),M=now.getMonth(),Y=now.getFullYear(),TY='',Q='',open={},tab={},CP=[];
+// Maps Supabase rows to the existing UI data shape; does not connect to Supabase.
+function toWebEvent(row) {
+  const ordered = rows => [...(rows || [])].sort((a,b)=>(a.sort_order||0)-(b.sort_order||0));
+  return {
+    id: row.id,
+    name: row.name,
+    date: row.event_date,
+    endDate: row.end_date,
+    start: row.start_time?.slice(0,5),
+    end: row.end_time?.slice(0,5),
+    event_types: [...row.event_types],
+    location: row.location,
+    thumb: row.event_images?.find(image => image.is_cover)?.image_url || row.thumbnail_url,
+    drive_folder_url: row.drive_folder_url,
+    link: row.map_url,
+    source: row.source_url,
+    sourceLabel: row.source_label,
+    desc: row.description,
+    notes: row.notes || [],
+    threads_topic: row.threads_topic,
+    keyword: row.keyword,
+    order: row.sort_order,
+    event_hashtags: ordered(row.event_hashtags),
+    links: ordered(row.event_links),
+    event_images: ordered(row.event_images)
+  };
+}
+
+// Public browser configuration. Access to rows is controlled by Supabase RLS.
+const SUPABASE_URL = 'https://mcilqfmkchoktjsltiuk.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_HkKFAwu6ip37E4f-SH8NsA__ZyrQdV2';
+
+async function fetchPublishedEvents(fetcher = fetch) {
+  const rows = [];
+  const pageSize = 500;
+  for (let offset = 0; ; offset += pageSize) {
+    const url = new URL('/rest/v1/events', SUPABASE_URL);
+    url.searchParams.set('select', '*,event_hashtags(*),event_links(*),event_images(*)');
+    url.searchParams.set('is_published', 'eq.true');
+    url.searchParams.set('order', 'event_date.asc,start_time.asc.nullslast,sort_order.asc,id.asc');
+    url.searchParams.set('limit', String(pageSize));
+    url.searchParams.set('offset', String(offset));
+    const response = await fetcher(url, {
+      headers: { apikey: SUPABASE_PUBLISHABLE_KEY },
+      signal: AbortSignal.timeout(15000)
+    });
+    if (!response.ok) throw new Error(`Supabase request failed (${response.status})`);
+    const page = await response.json();
+    if (!Array.isArray(page)) throw new Error('Invalid schedule response');
+    rows.push(...page);
+    if (page.length === 0) return rows;
+  }
+}
+
+var all=[],loadState="loading",now=new Date(),M=now.getMonth(),Y=now.getFullYear(),TY='',Q='',open={},tab={},CP=[];
 var TYPES=['Concert','Event','Livestream','TV Show','Brand','Khác'],MN=['January','February','March','April','May','June','July','August','September','October','November','December'],WD=['CN','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
 var $=function(i){return document.getElementById(i)};
 function esc(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML}
@@ -245,6 +298,9 @@ function render(){
  var q=Q.toLowerCase(),today=todayKey();
  var ev=all.filter(function(e){if(!e.date)return false;var d=ts(e.date);return d.getMonth()===M&&d.getFullYear()===Y&&(!TY||eventTypes(e).indexOf(TY)>=0)&&(!q||((e.name||'')+(e.location||'')).toLowerCase().indexOf(q)>=0)})
   .sort(function(a,b){return Number(isToday(b,today))-Number(isToday(a,today))||(a.date+(a.start||'')).localeCompare(b.date+(b.start||''))||(a.order||0)-(b.order||0)});
+ if(loadState!=='ready'){
+  $('list').innerHTML=loadState==='loading'?'<div class="empty" role="status">Đang tải lịch trình…</div>':'<div class="empty" role="alert">Không tải được lịch trình. Vui lòng thử lại.<br><button class="chip" data-retry>Thử lại</button></div>';return;
+ }
  if(!ev.length){$('list').innerHTML='<div class="empty">Chưa có lịch trình trong thời gian này 💌<br>Hãy quay lại sau hoặc chọn tháng khác nhé!</div>';return}
  $('list').innerHTML=ev.map(row).join('');
 }
@@ -299,6 +355,7 @@ function body(e,s,time,d){
  return h+'</section></div>'
 }
 document.addEventListener('click',function(ev){
+ if(ev.target.closest('[data-retry]')){loadEvents();return}
  var imageButton=ev.target.closest('[data-image]');
  if(imageButton){$('viewer-image').src=imageButton.getAttribute('data-image');$('viewer-image').alt=imageButton.getAttribute('data-caption');$('image-viewer').showModal();return}
  var t=ev.target.closest('[data-i],[data-tg],[data-tab],[data-ty]');
@@ -316,11 +373,22 @@ $('burger').onclick=function(){var n=document.querySelector('nav');n.classList.t
 window.addEventListener('resize',function(){document.querySelectorAll('[data-d]').forEach(function(d){d.open=window.innerWidth>820})});
 $('viewer-close').onclick=function(){$('image-viewer').close()};
 $('image-viewer').addEventListener('click',function(ev){if(ev.target===this){var r=this.getBoundingClientRect();if(ev.clientX<r.left||ev.clientX>r.right||ev.clientY<r.top||ev.clientY>r.bottom)this.close()}});
+async function loadEvents(){
+ loadState='loading';render();
+ try{
+  all=(await fetchPublishedEvents()).map(toWebEvent);
+  loadState='ready';
+ }catch(error){
+  all=[];loadState='error';console.error('Schedule loading failed:',error);
+ }
+ render();fixd();
+}
 var lastToday=todayKey();
 function refreshToday(){var day=todayKey();if(day!==lastToday){lastToday=day;render();fixd()}}
 setInterval(refreshToday,60000);
 document.addEventListener('visibilitychange',function(){if(!document.hidden)refreshToday()});
 render();fixd();
+loadEvents();
 </script>
 </body>
 </html>

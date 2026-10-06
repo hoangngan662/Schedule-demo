@@ -11,8 +11,10 @@ Nếu đã dùng bản rất cũ có event_topics/events.hashtags, cần đối 
 003 dành cho bản event_hashtags gần nhất, không tự xóa/chuyển bảng topic cũ.
 
 Chạy verify.sql sau khi tạo/nâng cấp để kiểm tra quyền bằng fixture rồi rollback.
-Chưa chạy trên project Supabase thực tế vì chưa có kết nối.
-Không sửa index.html hoặc tự nối web trong lần cập nhật database này.
+Website đã kết nối qua REST API bằng publishable key trong event-client.mjs.
+index.html chứa trực tiếp client và adapter để chạy cả khi mở bằng file://, không tải module cục bộ.
+Khi sửa event-client.mjs hoặc event-adapter.mjs, cập nhật phần tương ứng trong index.html.
+Chỉ sự kiện is_published=true xuất hiện; không dùng dữ liệu demo khi kết nối lỗi.
 
 ## Bảng
 - events: thông tin sự kiện, event_types text[] (nhiều loại), threads_topic text, keyword text,
@@ -56,7 +58,7 @@ service_role chỉ dùng phía server. Không đưa khóa này vào web.
 Lọc tháng với event_date; lọc loại bằng .contains('event_types', ['Livestream']).
 Sắp xếp theo event_date/start_time/sort_order; UI đưa sự kiện hôm nay lên trước.
 Dùng toWebEvent() trong event-adapter.mjs để đổi tên trường và sắp xếp các mảng con.
-Module này chưa được import vào web.
+Hàm này được nhúng vào index.html để chuyển dữ liệu lấy từ Supabase.
 
 Tài liệu: https://supabase.com/docs/guides/database/postgres/row-level-security
 
