@@ -10,7 +10,7 @@ export function toWebEvent(row) {
     end: row.end_time?.slice(0,5),
     event_types: [...row.event_types],
     location: row.location,
-    thumb: row.event_images?.find(image => image.is_cover)?.image_url || row.thumbnail_url,
+    thumb: row.event_images?.find(image => image.is_cover)?.image_url || row.thumbnail_url || 'assets/event-default.jpg',
     drive_folder_url: row.drive_folder_url,
     link: row.map_url,
     source: row.source_url,
