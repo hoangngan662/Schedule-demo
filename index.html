@@ -224,11 +224,6 @@ main{margin-top:0}
 </style>
 </head>
 <body>
-<header><div class="bar"><button class="ib" id="burger" aria-label="Menu">☰</button>
-<a class="logo" href="#lich" aria-label="H3T · Lịch trình"><img src="assets/logo-h3t.png" alt="H3T"></a>
-<nav><a class="on" href="#lich">Lịch trình</a></nav>
-</div>
-</header>
 <div class="hero"><div class="hi"><h2><i id="hm">October</i><span>Schedule</span></h2><div><q>Chỉ cần có các bạn, là hành trình nào cũng trở nên rực rỡ.</q><div>– Cường Bạch –</div></div></div></div>
 <main id="lich"><div class="panel">
 <div class="ctl"><div class="mn"><button id="pv">‹</button><b id="cur"></b><button id="nx">›</button><button id="cal"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4m8-4v4M4 10h16m-11 4h2m3 0h2"/></svg><input type="month" id="mi" aria-label="Chọn tháng"></button></div><div class="chips" id="chips"></div></div>
@@ -406,7 +401,6 @@ function fixd(){if(window.innerWidth>820)[].forEach.call(document.querySelectorA
 function mv(n){M+=n;if(M<0){M=11;Y--}if(M>11){M=0;Y++}render();fixd()}
 $('pv').onclick=function(){mv(-1)};$('nx').onclick=function(){mv(1)};
 $('mi').onchange=function(){var v=this.value.split('-');if(v.length==2){Y=+v[0];M=+v[1]-1;render();fixd()}};
-$('burger').onclick=function(){var n=document.querySelector('nav');n.classList.toggle('mobile-open');this.setAttribute('aria-expanded',n.classList.contains('mobile-open'))};
 window.addEventListener('resize',function(){document.querySelectorAll('[data-d]').forEach(function(d){d.open=window.innerWidth>820})});
 function showGallery(id){
  var event=all.find(function(e){return e.id===id});if(!event)return;
@@ -492,6 +486,7 @@ loadEvents();
 </script>
 </body>
 </html>
+
 
 
 
