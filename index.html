@@ -221,6 +221,7 @@ html{margin:0;padding-top:0}
 .hero{width:100%;height:auto;min-height:0;aspect-ratio:1807 / 602;background-image:url('assets/wall.jpg');background-size:100% 100%;background-position:center}
 .hero .hi{display:none;height:auto;min-height:0}
 main{margin-top:0}
+.tg.Gameshow{background:#e8edff;color:#3a56c5}.tg.Campaign{background:#fff1d6;color:#966000}
 </style>
 </head>
 <body>
@@ -289,7 +290,7 @@ async function fetchPublishedEvents(fetcher = fetch) {
 }
 
 var all=[],loadState="loading",now=new Date(),M=now.getMonth(),Y=now.getFullYear(),TY='',Q='',open={},tab={},CP=[];
-var TYPES=['Concert','Event','Livestream','TV Show','Brand','Khác'],MN=['January','February','March','April','May','June','July','August','September','October','November','December'],WD=['CN','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
+var TYPES=['Concert','Event','Livestream','Gameshow','Brand','Campaign','Khác'],MN=['January','February','March','April','May','June','July','August','September','October','November','December'],WD=['CN','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
 var $=function(i){return document.getElementById(i)};
 function esc(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML}
 function toast(t){var e=$('toast');e.textContent=t;e.className='on';clearTimeout(toast.h);toast.h=setTimeout(function(){e.className=''},1800)}
@@ -300,7 +301,7 @@ function ts(d,t){return new Date(d+'T'+(t||'00:00')+':00')}
 function st(e){var n=new Date(),s=ts(e.date,e.start),f=ts(e.endDate||e.date,e.end||'23:59');return n<s?['soon','Sắp diễn ra']:n>f?['done','Đã kết thúc']:['live','Đang diễn ra']}
 function eventTypes(e){
  var values=Array.isArray(e.event_types)?e.event_types:[e.type||'Khác'];
- var types=values.map(function(t){return TYPES.indexOf(t)<0?'Khác':t}).filter(function(t,i,a){return a.indexOf(t)===i});
+ var types=values.map(function(t){t=t==='TV Show'?'Gameshow':t;return TYPES.indexOf(t)<0?'Khác':t}).filter(function(t,i,a){return a.indexOf(t)===i});
  return types.length?types:['Khác'];
 }
 function typeBadges(e){return eventTypes(e).map(function(t){return '<span class="tg '+esc(t)+'">'+esc(t)+'</span>'}).join('')}

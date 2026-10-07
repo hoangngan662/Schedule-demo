@@ -81,3 +81,9 @@ Nếu API lỗi hoặc folder không có ảnh, giữ ảnh từ event_images.
 API key thử nghiệm lấy từ file mẫu, cần thay bằng key riêng và giới hạn Google Drive API/domain khi triển khai.
 Mã nguồn nằm ở drive-gallery.js và được nhúng trong index.html để hỗ trợ file://.
 Chưa có Edge Function đồng bộ. image_url phải là URL ảnh, không phải trang xem folder/file.
+
+## Nhãn sự kiện cập nhật 07/10/2026
+Các loại: Concert, Event, Livestream, Gameshow, Brand, Campaign, Khác.
+Project mới dùng schema.sql; project đã dựng dùng migrations/202610070001_event_categories.sql.
+Migration chuyển giá trị TV Show cũ thành Gameshow và cho phép Campaign.
+Web tương thích với dữ liệu TV Show cũ trong lúc chưa chạy migration.

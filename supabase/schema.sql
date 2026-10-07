@@ -12,7 +12,7 @@ create table public.events (
   timezone text not null default 'Asia/Ho_Chi_Minh' check (timezone = 'Asia/Ho_Chi_Minh'),
   event_types text[] not null default array['Event']::text[]
     check (cardinality(event_types)>0 and array_position(event_types,null) is null
-      and event_types <@ array['Concert','Event','Livestream','TV Show','Brand','Khác']::text[]),
+      and event_types <@ array['Concert','Event','Livestream','Gameshow','Brand','Campaign','Khác']::text[]),
   location text,
   thumbnail_url text,
   drive_folder_url text check (drive_folder_url is null or drive_folder_url ~ '^https://drive[.]google[.]com/'),
