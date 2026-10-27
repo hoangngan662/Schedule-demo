@@ -87,3 +87,11 @@ Các loại: Concert, Event, Livestream, Gameshow, Brand, Campaign, Khác.
 Project mới dùng schema.sql; project đã dựng dùng migrations/202610070001_event_categories.sql.
 Migration chuyển giá trị TV Show cũ thành Gameshow và cho phép Campaign.
 Web tương thích với dữ liệu TV Show cũ trong lúc chưa chạy migration.
+
+## Trang Project và Brand độc lập
+Migration 202610270001_independent_content.sql tạo projects và brands.
+Hai bảng không có liên kết với events, không lấy sự kiện Campaign/Brand.
+Cùng project Supabase, dữ liệu riêng. Mỗi bảng có title, summary, content,
+cover_image_url, website_url, sort_order, is_published, timestamps và UUID.
+schema.sql cho project mới đã bao gồm hai bảng này.
+Chưa chạy migration thực tế. Xem site/README.md để biết route.
