@@ -27,3 +27,25 @@ index.html là Trang chủ, tổng hợp 3 lịch trình, Profile ngắn, 3 albu
 schedule.html giữ trang Lịch trình trước đây và toàn bộ chức năng của nó.
 Nội dung Project/Brand tiếp tục đọc bảng riêng projects/brands; không suy ra từ sự kiện.
 Homepage không mở modal; nút đưa tới các trang và trang chi tiết có URL riêng.
+
+## Góc Bạch hồng (chỉ giao diện)
+goc-bach-hong.html: trang lời nhắn màu hồng nhạt, form và lời nhắn minh họa.
+Nút Xem trước chỉ thêm một bản xem trước vào DOM, không gửi mạng hoặc lưu dữ liệu.
+Tải lại trang xóa bản xem trước. Chưa tạo/chỉnh bất kỳ bảng database nào cho mục này.
+
+## Kết nối Góc Bạch hồng hiện tại
+Đã thay bản xem trước bằng đọc/gửi bảng wishes ở Supabase riêng.
+Xem WISHES.md để biết cấu hình, quyền cần có và kiểm tra kết nối.
+
+## Project dùng Supabase riêng (cập nhật)
+Cấu hình site/project-config.js; database uevefacjuhituefgkbmz.
+Dùng bảng projects hiện có với các cột:
+id,title,type,by_name,actor,status,descr,region,date,budget,target,link,img,gallery,created_at.
+Không truy vấn is_published/sort_order ở account Project vì schema không có các cột đó.
+Quyền đọc do RLS/grants đã có tại project này quyết định; không sửa DB hoặc policy.
+site/project-data.js map img → ảnh bìa, descr → mô tả, link → liên kết project.
+gallery nhận JSON dạng chuỗi hoặc mảng; hỗ trợ URL string hoặc object image_url/url/src.
+Project list, project detail và mục Project trên home đều dùng account riêng.
+Brand vẫn dùng site/config.js. Bảng projects trong schema cũ không còn là nguồn của web.
+Không chạy migration independent_content lên DB Project hiện có.
+Kiểm tra UI/mapping dùng request giả lập, không ghi dữ liệu thật.

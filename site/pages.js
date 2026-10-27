@@ -2,6 +2,7 @@
   const page = document.body.dataset.page, content = document.getElementById('page-content'), filter = document.getElementById('event-filter');
   let events = [], generation = 0;
   const isGallery = page === 'gallery' || page === 'gallery-album';
+  const isProject = page === 'project' || page === 'project-detail';
   const safeUrl = value => typeof value === 'string' && /^(https?:\/\/|assets\/)/i.test(value) ? value : '';
   function el(tag, cls, text) {const node=document.createElement(tag);if(cls)node.className=cls;if(text!=null)node.textContent=text;return node;}
   function status(message,retry=false) {
@@ -60,7 +61,8 @@
       link.href=href;link.setAttribute('aria-label','Xem '+item.title);
       image.src=safeUrl(item.cover_image_url)||'assets/event-default.jpg';
       image.alt=item.title;image.loading='lazy';image.addEventListener('error',()=>{image.src='assets/event-default.jpg';},{once:true});link.append(image);
-      card.append(link,el('div','collection-meta',page==='brand'?'Brand & collaboration':'Fan project'),el('h2','',item.title));
+      card.append(link,el('div','collection-meta',page==='brand'?'Brand & collaboration':[item.type,item.status].filter(Boolean).join(' · ')),el('h2','',item.title));
+      if(isProject&&item.by_name)card.append(el('p','project-byline','Thực hiện: '+item.by_name));
       if(item.summary)card.append(el('p','',item.summary));
       const more=el('a','text-link','Khám phá →');more.href=href;card.append(more);content.append(card);
     });
@@ -73,22 +75,42 @@
     document.getElementById('detail-title').textContent=item.title;
     document.getElementById('detail-summary').textContent=item.summary||'';
     if(safeUrl(item.cover_image_url)){const img=document.createElement('img');img.src=item.cover_image_url;img.alt=item.title;img.className='detail-cover';content.append(img);}
+    if(isProject){
+      const info=el('dl','project-facts');
+      [['Loại project',item.type],['Thực hiện bởi',item.by_name],['Nghệ sĩ',item.actor],['Trạng thái',item.status],['Khu vực',item.region],['Thời gian',item.date],['Ngân sách',item.budget],['Mục tiêu',item.target]].forEach(function(pair){
+        if(pair[1]==null||pair[1]==='')return;
+        const group=document.createElement('div');group.append(el('dt','',pair[0]),el('dd','',String(pair[1])));info.append(group);
+      });
+      content.append(info);
+    }
     content.append(el('div','detail-body',item.content||'Nội dung đang được cập nhật.'));
-    if(safeUrl(item.website_url)&&/^https?:/.test(item.website_url)){const link=el('a','page-button','Trang chính thức ↗');link.href=item.website_url;link.rel='noopener';content.append(link);}
+    if(isProject&&item.project_gallery.length){
+      const section=el('section','project-photos'),grid=el('div','exhibition');
+      section.append(el('h2','','Hình ảnh project'));
+      item.project_gallery.forEach(function(photo,i){
+        const figure=el('figure','exhibit'),image=document.createElement('img');
+        image.src=photo.image_url;image.alt=photo.caption||('Ảnh '+(i+1)+' · '+item.title);image.loading='lazy';
+        image.addEventListener('error',()=>image.replaceWith(el('p','page-status','Ảnh hiện không tải được.')),{once:true});
+        figure.append(image);grid.append(figure);
+      });
+      section.append(grid);content.append(section);
+    }
+    if(safeUrl(item.website_url)&&/^https?:/.test(item.website_url)){const link=el('a','page-button',isProject?'Xem liên kết project ↗':'Trang chính thức ↗');link.href=item.website_url;link.rel='noopener';content.append(link);}
   }
   async function load() {
     const current=++generation;status(isGallery?'Đang chuẩn bị không gian ảnh…':'Đang tải các hoạt động…');
     try {
-      const config=window.SITE_CONFIG;
+      const config=isProject?window.PROJECT_CONFIG:window.SITE_CONFIG;
       const table=isGallery?'events':page.startsWith('brand')?'brands':'projects';
       const url=new URL('/rest/v1/'+table,config.SUPABASE_URL);
-      url.searchParams.set('select',isGallery?'id,name,event_date,thumbnail_url,drive_folder_url,event_images(*)':'id,title,summary,content,cover_image_url,website_url,sort_order,created_at');
+      url.searchParams.set('select',isProject?window.ProjectData.select:isGallery?'id,name,event_date,thumbnail_url,drive_folder_url,event_images(*)':'id,title,summary,content,cover_image_url,website_url,sort_order,created_at');
       if(page.endsWith('-detail')||page==='gallery-album'){
         const id=new URLSearchParams(location.search).get('id');
         if(!id||!/^[0-9a-f-]{36}$/i.test(id)){status('Đường dẫn không hợp lệ.');return;}
         url.searchParams.set('id','eq.'+id);url.searchParams.set('limit','1');
       }
-      url.searchParams.set('is_published','eq.true');url.searchParams.set('order',isGallery?'event_date.desc':'sort_order.asc,created_at.desc');
+      if(!isProject)url.searchParams.set('is_published','eq.true');
+      url.searchParams.set('order',isProject?'created_at.desc.nullslast,id.desc':isGallery?'event_date.desc':'sort_order.asc,created_at.desc');
       const response=await fetch(url,{headers:{apikey:config.SUPABASE_PUBLISHABLE_KEY},signal:AbortSignal.timeout(20000)});
       if(!response.ok)throw new Error('Request failed: '+response.status);
       const data=await response.json();if(!Array.isArray(data))throw new Error('Invalid data');
@@ -97,7 +119,7 @@
         event.thumb=event.thumbnail_url;
         if(event.drive_folder_url&&typeof resolveDriveImages==='function')await resolveDriveImages(event,cache);
       }));
-      if(current!==generation)return;events=data;
+      if(current!==generation)return;events=isProject?data.map(window.ProjectData.normalize):data;
       if(page==='gallery')gallery();
       else if(page==='gallery-album')album();
       else if(page.endsWith('-detail'))detail();

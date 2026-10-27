@@ -7,12 +7,14 @@
     if(retry){box.append(document.createElement('br'));const button=el('button','page-button','Thử lại');button.addEventListener('click',retry);box.append(button);}
   }
   async function request(table,select,limit){
-    const url=new URL('/rest/v1/'+table,config.SUPABASE_URL);
-    url.searchParams.set('select',select);url.searchParams.set('is_published','eq.true');
-    url.searchParams.set('order',table==='events'?'event_date.desc':'sort_order.asc,created_at.desc');url.searchParams.set('limit',String(limit));
-    const response=await fetch(url,{headers:{apikey:config.SUPABASE_PUBLISHABLE_KEY},signal:AbortSignal.timeout(20000)});
+    const source=table==='projects'?window.PROJECT_CONFIG:config;
+    const url=new URL('/rest/v1/'+table,source.SUPABASE_URL);
+    url.searchParams.set('select',table==='projects'?window.ProjectData.select:select);
+    if(table!=='projects')url.searchParams.set('is_published','eq.true');
+    url.searchParams.set('order',table==='projects'?'created_at.desc.nullslast,id.desc':table==='events'?'event_date.desc':'sort_order.asc,created_at.desc');url.searchParams.set('limit',String(limit));
+    const response=await fetch(url,{headers:{apikey:source.SUPABASE_PUBLISHABLE_KEY},signal:AbortSignal.timeout(20000)});
     if(!response.ok)throw new Error('Request failed '+response.status);
-    const rows=await response.json();if(!Array.isArray(rows))throw new Error('Invalid data');return rows;
+    const rows=await response.json();if(!Array.isArray(rows))throw new Error('Invalid data');return table==='projects'?rows.map(window.ProjectData.normalize):rows;
   }
   function today(){
     const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Ho_Chi_Minh',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()),p={};
@@ -74,7 +76,7 @@
         link.href=kind+'-detail.html?id='+encodeURIComponent(item.id);more.href=link.href;
         image.src=safe(item.cover_image_url)||'assets/event-default.jpg';image.alt=item.title;image.loading='lazy';
         image.addEventListener('error',()=>{image.src='assets/event-default.jpg';},{once:true});link.append(image);
-        card.append(link,el('div','collection-meta',kind==='brand'?'Brand':'Project'),el('h2','',item.title));
+        card.append(link,el('div','collection-meta',kind==='brand'?'Brand':[item.type,item.status].filter(Boolean).join(' · ')),el('h2','',item.title));
         if(item.summary)card.append(el('p','',item.summary));
         card.append(more);root.append(card);
       });
