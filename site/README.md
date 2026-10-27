@@ -21,3 +21,9 @@ gallery.html hiển thị 1 card/sự kiện: ảnh bìa, tên, ngày và số �
 Bấm card đi tới gallery-album.html?id=UUID; trang album hiển thị tất cả ảnh,
 không giới hạn 5 ảnh và không dùng modal. Ảnh trong album giữ tỷ lệ gốc.
 Ảnh bìa ưu tiên is_cover, sau đó tên có main, sau đó ảnh đầu.
+
+## Trang chủ
+index.html là Trang chủ, tổng hợp 3 lịch trình, Profile ngắn, 3 album, 3 Project và 3 Brand.
+schedule.html giữ trang Lịch trình trước đây và toàn bộ chức năng của nó.
+Nội dung Project/Brand tiếp tục đọc bảng riêng projects/brands; không suy ra từ sự kiện.
+Homepage không mở modal; nút đưa tới các trang và trang chi tiết có URL riêng.

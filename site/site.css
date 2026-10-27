@@ -23,3 +23,16 @@
 @media(max-width:1050px){.album-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.album-grid{grid-template-columns:1fr;gap:20px}.album-info{padding:14px}.album-info h2{font-size:14px}.album-toolbar{padding-bottom:20px}}
 @media(prefers-reduced-motion:reduce){.album-card{transition:none}}
+.home-banner img{display:block;width:100%;height:auto}.home-main{padding-top:50px}
+.home-welcome{display:grid;grid-template-columns:1.5fr 1fr;gap:8%;align-items:end;margin-bottom:60px}
+.home-welcome h1{font:400 clamp(34px,4vw,62px)/1.15 Georgia,serif;letter-spacing:-.035em;margin:15px 0 0}.home-welcome p{max-width:350px;color:#7a7c76;font-size:15px}
+.home-section{border-top:1px solid #dfdad2;padding-top:30px;margin-top:65px}.home-section-heading{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:28px}
+.home-section h2{font:400 clamp(28px,3.2vw,44px)/1.2 Georgia,serif;margin:10px 0 0;letter-spacing:-.025em}.home-section-heading>a{font-size:12px;white-space:nowrap}
+.home-schedule{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.home-event{display:flex;gap:18px;padding:24px 18px;background:#fff;border:1px solid #e9e4de;text-decoration:none;color:inherit}
+.home-event-date{flex:0 0 48px;text-align:center;border-right:1px solid #eae5dd;padding-right:16px;color:#b72239}
+.home-event-date b{display:block;font-size:31px;line-height:1.1}.home-event-date small{font-size:10px;white-space:nowrap}
+.home-event h3{font-size:15px;line-height:1.5;margin:5px 0 8px}.home-event p{font-size:12px;color:#777;margin:0}.home-event .eyebrow{font-size:9px;letter-spacing:.07em}
+.home-event.is-today{border-color:#df9ca6;background:#fff4f3}.home-profile{display:grid;grid-template-columns:1fr 1fr;gap:8%;align-items:center}.home-profile>img{display:block;width:100%;max-height:480px;object-fit:cover}.home-profile p{color:#7a7c76;margin:25px 0}
+@media(max-width:1050px){.home-schedule{grid-template-columns:1fr}.home-event{padding:18px}.home-page .album-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:820px){.home-main{padding-top:30px}.home-welcome{grid-template-columns:1fr;gap:15px;margin-bottom:35px}.home-welcome h1{font-size:35px}.home-section{margin-top:40px;padding-top:25px}.home-section-heading{gap:12px}.home-section-heading>a{font-size:11px}.home-section h2{font-size:28px}.home-profile{grid-template-columns:1fr;gap:28px}.home-page .album-grid{grid-template-columns:1fr}.home-profile>img{max-height:none}}
