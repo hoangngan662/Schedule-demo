@@ -95,3 +95,13 @@ Cùng project Supabase, dữ liệu riêng. Mỗi bảng có title, summary, con
 cover_image_url, website_url, sort_order, is_published, timestamps và UUID.
 schema.sql cho project mới đã bao gồm hai bảng này.
 Chưa chạy migration thực tế. Xem site/README.md để biết route.
+
+## Thương hiệu và chiến dịch
+DB đã có brands: chạy migrations/202611040001_brand_campaigns.sql sau migration independent_content.
+Project mới: schema.sql đã bao gồm thay đổi.
+- brands.title: tên thương hiệu; logo_url: URL logo; cover_image_url: ảnh bìa riêng.
+- brand_campaigns: nhiều chiến dịch cho mỗi thương hiệu, gồm tên, mô tả, thời gian, ảnh và liên kết.
+- Nhập thương hiệu trong Table Editor trước, rồi chọn brand_id khi thêm chiến dịch.
+- Người xem chỉ đọc chiến dịch khi cả thương hiệu và chiến dịch đều is_published=true.
+- Muốn xóa thương hiệu có chiến dịch, xử lý các chiến dịch trước.
+- Bảng này độc lập với Lịch trình và Project. Giao diện Brand chưa đọc logo/chiến dịch.
