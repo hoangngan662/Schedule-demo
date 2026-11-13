@@ -4,7 +4,7 @@
     {id:'nep-studio',title:'Nếp Studio',logo:'NẾP',tone:'linen',category:'Thời trang',summary:'Những thiết kế giản dị cho nhịp sống mỗi ngày.',campaigns:[{title:'Một ngày thật nhẹ',postUrl:'https://example.com/bai-viet/nep-studio-lookbook',jobType:'Cá nhân',credit:'Cường Bạch',date:'Tháng 11/2026',description:'Lookbook phối đồ từ các thiết kế cơ bản, dễ mặc và dễ kết hợp.'}]},
     {id:'am-thanh',title:'Âm Thành',logo:'ÂM THÀNH',tone:'sound',category:'Âm nhạc & phong cách sống',summary:'Dành thêm thời gian cho những giai điệu mình yêu.',campaigns:[{title:'Nghe theo cách của bạn',postUrl:'https://example.com/bai-viet/am-thanh-nghe-theo-cach-ban',jobType:'Cùng nhóm',credit:'UPRIZE',date:'Tháng 12/2026',description:'Chuỗi nội dung về thói quen nghe nhạc và những bản nhạc yêu thích.'}]}
   ];
-  const root=document.getElementById('page-content');
+  const root=document.getElementById('home-brand')||document.getElementById('page-content');
   const el=(tag,cls,text)=>{const n=document.createElement(tag);n.className=cls;if(text)n.textContent=text;return n;};
   function cover(brand){
     const n=el('div','brand-demo-cover '+brand.tone);
@@ -31,7 +31,7 @@
   });
     return campaigns;
   }
-  if(document.body.dataset.page==='brand'){
+  if(document.body.dataset.page==='brand'||root.id==='home-brand'){
     const dialog=el('dialog','brand-demo-dialog');
     dialog.setAttribute('aria-labelledby','brand-dialog-title');
     const close=el('button','brand-dialog-close','×');
@@ -49,6 +49,7 @@
       mark.setAttribute('aria-hidden','true');
       tile.append(mark);
       link.append(tile);
+      if(root.id==='home-brand')link.append(el('span','home-tile-label',brand.title));
       link.setAttribute('aria-label','Xem chiến dịch của '+brand.title);
       link.addEventListener('click',()=>{
         const title=el('h2','brand-dialog-title',brand.title);
@@ -60,6 +61,18 @@
       });
       return link;
     }));
+    if(root.id==='home-brand'){
+      root.className='home-project-grid';
+      const brand=brands[brands.length-1];
+      const more=el('a','home-project-tile home-project-more home-brand-more');
+      more.href='brand.html';
+      more.setAttribute('aria-label','View all brands');
+      const logo=el('div','brand-logo-tile '+brand.tone);
+      logo.setAttribute('aria-hidden','true');
+      logo.append(el('span','brand-logo-wordmark',brand.logo));
+      more.append(logo,el('span','','More →'));
+      root.append(more);
+    }
     return;
   }
   const brand=brands.find(item=>item.id===new URLSearchParams(location.search).get('id'));
