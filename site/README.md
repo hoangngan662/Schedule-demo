@@ -5,7 +5,7 @@
 - schedule.html: lịch trình và chi tiết sự kiện.
 - gallery.html: album sự kiện, xem ảnh trong modal.
 - brand.html: Brands & Campaigns, chế độ Ring/List và modal campaign.
-- goc-bach-hong.html: WR Frequency, đọc và gửi lời nhắn.
+- frequency.html: WR Frequency, đọc và gửi lời nhắn.
 - project.html: WR Projects, bộ lọc, băng trôi/List và modal kèm ảnh.
 - resources.html: WR Resources, tìm kiếm, lọc chủ đề và đọc bài trong modal.
 
