@@ -18,52 +18,33 @@ document.querySelectorAll('.nav-group').forEach(group => {
   });
 });
 
-const navIcons = {
-  Home: 'M3 10l9-7 9 7v10H15v-6H9v6H3z',
-  Schedule: 'M4 6h16v15H4z M4 10h16 M8 3v5 M16 3v5 M8 14h2 M14 14h2 M8 17h2',
-  Profile: 'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0z M4 21v-2a5 5 0 0 1 5-5h6a5 5 0 0 1 5 5v2z',
-  Gallery: 'M3 4h18v16H3z M3 17l6-6 4 4 3-3 5 5 M16 8h.01',
-  Brands: 'M3 4h9l9 9-8 8-10-10z M8 8h.01',
-  Whiterose: 'M12 20S3 15 3 9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 11-9 11z'
-};
-navIcons['White Rose'] = navIcons.Whiterose;
-const bottomNav = matchMedia('(max-width: 820px)');
-document.querySelectorAll('.site-nav').forEach(nav => {
-  const links = nav.querySelector('.site-links');
-  if (!links) return;
-  const groups = [...links.querySelectorAll('.nav-group')];
-  const currentFile = location.pathname.split('/').pop();
-  const route = currentFile || 'index.html';
-  for (const item of links.children) {
-    const control = item.matches('details') ? item.querySelector('summary') : item;
-    const label = control.textContent.trim(), path = navIcons[label];
-    if (!path) continue;
-    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svg.setAttribute('viewBox','0 0 24 24');
-    svg.setAttribute('aria-hidden','true');
-    svg.classList.add('bottom-nav-icon');
-    const shape = document.createElementNS(svg.namespaceURI,'path');
-    shape.setAttribute('d',path);
-    svg.append(shape);
-    const text = document.createElement('span');
-    text.textContent = label;
-    control.replaceChildren(svg,text);
-    if (item.matches('details')) {
-      const active = [...item.querySelectorAll('a')].some(link => link.getAttribute('href').split('#')[0] === route);
-      item.classList.toggle('nav-current-section',active);
-      if (active) control.setAttribute('aria-current','true');
-    }
+const mobileNavigation = matchMedia('(max-width: 820px)');
+document.querySelectorAll('.site-nav').forEach((nav,index) => {
+  const links=nav.querySelector('.site-links');
+  if(!links)return;
+  const groups=[...links.querySelectorAll('.nav-group')];
+  links.id=links.id||'site-menu-'+index;
+  const toggle=document.createElement('button');
+  toggle.type='button';toggle.className='mobile-nav-toggle';toggle.textContent='Menu';
+  toggle.setAttribute('aria-controls',links.id);toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Mở menu điều hướng');
+  nav.insertBefore(toggle,links);nav.classList.add('mobile-nav-ready');
+  function setOpen(open,returnFocus=false){
+    nav.classList.toggle('mobile-nav-open',open);
+    toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Đóng menu điều hướng':'Mở menu điều hướng');
+    if(!open)groups.forEach(group=>{group.open=false;});
+    if(returnFocus)toggle.focus();
   }
-  nav.classList.add('bottom-nav-ready');
-  const closeGroups = () => groups.forEach(group => { group.open = false; });
-  bottomNav.addEventListener('change',closeGroups);
-  groups.forEach(group => group.addEventListener('toggle',() => {
-    if (bottomNav.matches && group.open) groups.forEach(other => { if (other !== group) other.open = false; });
-  }));
-  links.addEventListener('click',event => {
-    if (bottomNav.matches && event.target.closest('a')) closeGroups();
+  toggle.addEventListener('click',()=>setOpen(toggle.getAttribute('aria-expanded')!=='true'));
+  nav.addEventListener('keydown',event=>{
+    if(mobileNavigation.matches&&event.key==='Escape'&&!event.defaultPrevented){event.preventDefault();setOpen(false,true);}
   });
-  document.addEventListener('pointerdown',event => {
-    if (bottomNav.matches && !nav.contains(event.target)) closeGroups();
+  links.addEventListener('click',event=>{if(mobileNavigation.matches&&event.target.closest('a'))setOpen(false);});
+  document.addEventListener('pointerdown',event=>{if(mobileNavigation.matches&&!nav.contains(event.target))setOpen(false);});
+  nav.addEventListener('focusout',event=>{if(mobileNavigation.matches&&!nav.contains(event.relatedTarget))setOpen(false);});
+  mobileNavigation.addEventListener('change',()=>setOpen(false));
+  groups.forEach(group=>{
+    const active=[...group.querySelectorAll('a')].some(link=>link.getAttribute('href').split('#')[0]===location.pathname.split('/').pop());
+    if(active)group.querySelector('summary').setAttribute('aria-current','true');
+    group.addEventListener('toggle',()=>{if(mobileNavigation.matches&&group.open)groups.forEach(other=>{if(other!==group)other.open=false;});});
   });
 });
