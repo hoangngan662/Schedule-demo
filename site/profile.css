@@ -88,3 +88,12 @@ html:has(.profile-page){scroll-padding-top:66px;scroll-snap-type:y proximity;scr
 
 /* A single scroll controller on desktop; retain native snapping on touch. */
 html.section-wheel-scroll:has(.profile-page){scroll-snap-type:none;scroll-behavior:auto}
+
+/* Hide the scrollbar while preserving swipe and horizontal scrolling. */
+.artist-track{scrollbar-width:none;-ms-overflow-style:none}
+.artist-track::-webkit-scrollbar{display:none;width:0;height:0}
+
+/* Continuous draggable strips without step controls or snapping. */
+.artist-track{scroll-snap-type:none;scroll-behavior:auto;touch-action:pan-y;cursor:grab;user-select:none}
+.artist-track.is-dragging{cursor:grabbing}
+.artist-track img{-webkit-user-drag:none;pointer-events:none}

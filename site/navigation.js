@@ -25,7 +25,7 @@ document.querySelectorAll('.site-nav').forEach((nav,index) => {
   const groups=[...links.querySelectorAll('.nav-group')];
   links.id=links.id||'site-menu-'+index;
   const toggle=document.createElement('button');
-  toggle.type='button';toggle.className='mobile-nav-toggle';toggle.textContent='Menu';
+  toggle.type='button';toggle.className='mobile-nav-toggle';toggle.textContent='';
   toggle.setAttribute('aria-controls',links.id);toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Mở menu điều hướng');
   nav.insertBefore(toggle,links);nav.classList.add('mobile-nav-ready');
   function setOpen(open,returnFocus=false){
