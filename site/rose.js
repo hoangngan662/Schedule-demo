@@ -2,18 +2,23 @@
   const form=document.getElementById('rose-form'),message=document.getElementById('rose-message'),name=document.getElementById('rose-name');
   const count=document.getElementById('rose-count'),feedback=document.getElementById('rose-feedback'),notes=document.getElementById('rose-notes');
   const submit=form.querySelector('[type="submit"]'),more=document.getElementById('rose-load-more'),label=document.getElementById('rose-list-label');
-  const pageSize=20;
+  const pageSize=5;
   let offset=0,loading=false,sending=false,pendingRefresh=false,client;
   const seen=new Set();
   function node(tag,cls,text){const el=document.createElement(tag);if(cls)el.className=cls;if(text!=null)el.textContent=text;return el;}
   function card(row) {
-    const article=node('article','rose-note');
-    const quote=node('span','rose-note-icon','“');quote.setAttribute('aria-hidden','true');
-    const body=node('p','',row.message),footer=document.createElement('footer'),author=node('span','',row.name||'Một Bạch hồng');
-    const date=node('span','rose-note-date');
-    if(row.created_at&&Number.isFinite(Date.parse(row.created_at)))date.textContent=new Intl.DateTimeFormat('vi-VN',{timeZone:'Asia/Ho_Chi_Minh',day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(row.created_at));
-    else date.textContent='♡';
-    footer.append(author,date);article.append(quote,body,footer);return article;
+    const article=node('article','frequency-entry');
+    const meta=node('div','signal-meta'),date=node('time','');
+    if(row.created_at&&Number.isFinite(Date.parse(row.created_at))){
+      date.dateTime=new Date(row.created_at).toISOString();
+      date.textContent=new Intl.DateTimeFormat('vi-VN',{timeZone:'Asia/Ho_Chi_Minh',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(row.created_at));
+    }else date.textContent='Không rõ thời gian';
+    const hash=Array.from(String(row.id||'')).reduce((n,c)=>(n*31+c.charCodeAt(0))>>>0,0);
+    const frequency=node('span','signal-frequency',(210+hash%500/10).toFixed(1)+' Hz');
+    frequency.title='Tần số trang trí, không phải dữ liệu âm thanh';
+    meta.append(node('span','signal-play','▸'),date,frequency);
+    const body=node('div','signal-body');body.append(node('p','',row.message),node('span','signal-author','— '+(row.name||'Tín hiệu ẩn danh')));
+    article.append(meta,body);return article;
   }
   function listState(text,retry) {
     const box=node('div','rose-list-status',text);
@@ -23,20 +28,28 @@
   async function load(reset=false) {
     if(loading)return;
     loading=true;more.disabled=true;
+    document.getElementById('frequency-list-feedback').textContent='';
     if(reset){offset=0;seen.clear();more.hidden=true;listState('Đang đọc những lời thương…');}
     try{
       const rows=await client.list({limit:pageSize,offset});
       if(reset)notes.replaceChildren();
       rows.forEach(row=>{if(!row.id||seen.has(row.id))return;seen.add(row.id);notes.append(card(row));});
       offset+=rows.length;more.hidden=rows.length<pageSize;
+      document.getElementById('frequency-loaded').textContent=seen.size+' tín hiệu đã tải';
       label.textContent='Những lời thương mới nhất';
       if(!offset)listState('Góc nhỏ đang chờ lời nhắn đầu tiên của bạn.');
     }catch(error){
       if(reset)listState('Chưa tải được lời nhắn. Bạn thử lại nhé.',true);
-      else{feedback.textContent='Chưa tải được các lời nhắn tiếp theo. Bạn thử lại nhé.';more.hidden=false;}
+      else{document.getElementById('frequency-list-feedback').textContent='Chưa tải được tín hiệu tiếp theo. Bạn thử lại nhé.';more.hidden=false;}
+      document.getElementById('frequency-loaded').textContent='Kết nối gián đoạn';
       console.error('Wishes loading:',error.message);
     }finally{loading=false;more.disabled=false;if(pendingRefresh){pendingRefresh=false;load(true);}}
   }
+  const dialog=document.getElementById('frequency-compose');
+  document.getElementById('frequency-write').onclick=()=>{dialog.showModal();name.focus();document.documentElement.classList.add('frequency-compose-open');};
+  document.getElementById('frequency-close').onclick=()=>dialog.close();
+  dialog.addEventListener('close',()=>document.documentElement.classList.remove('frequency-compose-open'));
+  dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();});
   message.addEventListener('input',()=>{count.textContent=message.value.length+' / 1000';message.setCustomValidity('');});
   form.addEventListener('submit',async event=>{
     event.preventDefault();if(sending||!client)return;

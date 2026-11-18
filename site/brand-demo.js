@@ -75,10 +75,4 @@
     }
     return;
   }
-  const brand=brands.find(item=>item.id===new URLSearchParams(location.search).get('id'));
-  if(!brand){root.replaceChildren(el('p','page-status','Không tìm thấy thương hiệu mẫu.'));return;}
-  document.title=brand.title+' · Brand demo';
-  document.getElementById('detail-title').textContent=brand.title;
-  document.getElementById('detail-summary').textContent=brand.summary;
-  root.replaceChildren(cover(brand),campaignList(brand));
 })();

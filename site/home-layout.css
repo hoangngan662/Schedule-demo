@@ -1,0 +1,207 @@
+/* Layout study based on the supplied desktop composition. Palette remains unchanged. */
+.home-brief-demo .site-nav{padding:10px 6%;min-height:66px}
+.home-brief-demo .site-links{flex:1;justify-content:space-evenly}
+.home-brief-demo .site-links>a,.home-brief-demo .site-links>details>summary{text-transform:uppercase;font-size:13px}
+.brief-hero{aspect-ratio:1.94}
+.hero-caption{display:none}
+.home-brief-demo .home-main{max-width:none;padding:0}
+.brief-demo-label{margin:0;padding:10px 3%;border:0}
+.brief-about{padding:30px 3% 40px;grid-template-columns:minmax(0,.62fr) minmax(0,1fr);gap:3%;align-items:stretch}
+.about-image>img{height:100%;max-height:650px;min-height:490px;object-fit:cover;border-radius:30px}
+.about-image>span{display:none}
+.brief-about>div:last-child{display:flex;flex-direction:column;align-items:flex-start}
+.brief-about>div:last-child>.eyebrow{display:none}
+.about-wordmark{align-self:flex-end;text-align:right}
+.about-wordmark>span{font:italic 28px Georgia,serif}
+.about-wordmark h1{font-size:clamp(90px,12vw,180px);line-height:.9;margin:12px 0 22px;letter-spacing:-.06em}
+.brief-about .about-lead{max-width:760px;font-size:clamp(16px,1.6vw,23px)}
+.brief-about dl{display:grid;gap:16px;margin:15px 0 30px}
+.brief-about dl>div{display:flex;gap:15px;align-items:baseline}
+.brief-about dt{font-size:13px;min-width:100px}
+.brief-about dd{font-size:17px}
+.brief-about .page-button{margin-top:auto;min-width:240px;text-align:center;border-radius:40px}
+.home-brief-demo .home-section{margin:0;padding:38px 3% 48px;border:0}
+.home-brief-demo .home-section h2{font-size:clamp(45px,7vw,104px);line-height:1.1}
+.layout-schedule{display:grid;grid-template-columns:minmax(0,2.3fr) minmax(240px,1fr);gap:22px 30px;align-items:start}
+.layout-schedule>.home-section-heading{grid-column:1;margin:0}
+.layout-schedule .home-section-heading>.text-link{display:none}
+.layout-schedule>.brief-schedule{display:contents}
+.layout-schedule #brief-calendar{grid-column:1;grid-row:2;max-width:none}
+.layout-schedule .nearest-event{grid-column:2;grid-row:1 / 3;border:0;padding:20px 0 0}
+.layout-schedule .nearest-event>.eyebrow{font-size:15px;letter-spacing:.04em;font-style:italic}
+.layout-schedule .nearest-event>img{aspect-ratio:4/5;max-width:none;border-radius:8px}
+.layout-schedule .nearest-event>.text-link{display:block;text-align:center;border:1px solid #d8c8c9;border-radius:40px;padding:14px;margin-top:25px}
+.home-brief-demo .layout-gallery>.home-section-heading,.home-brief-demo .layout-brands>.home-section-heading{display:block;text-align:center;margin-bottom:20px}
+.layout-gallery .home-section-heading>.text-link,.layout-brands .home-section-heading>.text-link{display:inline-block;margin-top:15px}
+.section-introduction{text-align:center;max-width:900px;margin:0 auto 35px;line-height:1.9;color:#655c63}
+.layout-gallery .brief-image-tile{aspect-ratio:1}
+.layout-brands>.sample-small{text-align:center}
+.home-brief-demo .layout-brands #home-brand{max-width:1200px;margin:auto}
+.home-brief-demo .brief-white-rose{padding-top:40px;margin:0}
+.wr-intro{text-align:left;margin:0 0 32px}
+.wr-intro>p{margin-bottom:0}
+.wr-top-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:35px;align-items:stretch}
+.home-brief-demo .wr-subsection{position:relative;padding:0 0 70px;margin:0;border:0;min-width:0}
+.home-brief-demo .wr-subsection h2{font:700 italic clamp(24px,3vw,40px)/1.2 "Segoe UI",Arial,sans-serif}
+.wr-subsection>.home-section-heading{display:block;margin-bottom:25px}
+.wr-subsection>.home-section-heading>.text-link{position:absolute;bottom:0;left:50%;transform:translateX(-50%);white-space:nowrap;text-align:center;border:1px solid #d6b8c2;padding:12px 25px;border-radius:30px;min-width:200px}
+.brief-projects{gap:20px}
+.brief-project .brief-image-tile{aspect-ratio:4/5;border-radius:12px 12px 0 0}
+.brief-project{border:1px solid #dec6ce;border-radius:12px;padding-bottom:16px;overflow:hidden}
+.brief-project>p,.brief-project>h3{margin-left:12px;margin-right:12px}
+.frequency-log{height:calc(100% - 95px);min-height:350px;box-sizing:border-box;overflow:auto}
+.frequency-log li{grid-template-columns:40px minmax(0,1fr);gap:7px}
+.frequency-log .signal-index,.frequency-log li>span:last-child{display:none}
+.frequency-log p{grid-column:2}
+.home-brief-demo .wr-resource-panel{margin-top:35px;padding-top:10px}
+.brief-resources{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 30px}
+.brief-resource{min-height:110px;border-radius:10px;display:grid;grid-template-columns:40px minmax(0,1fr) 20px;gap:8px 12px;align-content:center}
+.resource-number{grid-column:1;grid-row:1 / 3;margin:0;font-size:30px}
+.brief-resource>.eyebrow{grid-column:2}
+.brief-resource h3{grid-column:2;margin:0}
+.resource-arrow{grid-column:3;grid-row:1 / 3;align-self:center}
+.home-layout-footer{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+.home-layout-footer>img{width:150px;height:auto}
+@media(max-width:820px){
+ .home-brief-demo .site-nav{padding:5px}
+ .brief-hero{aspect-ratio:16/9}
+ .brief-about{grid-template-columns:minmax(0,.8fr) minmax(0,1fr);gap:20px;padding:24px 18px}
+ .about-image>img{min-height:0;max-height:none;border-radius:16px;object-fit:cover}
+ .about-wordmark h1{font-size:80px}.about-wordmark>span{font-size:23px}
+ .brief-about .about-lead{font-size:13px}.brief-about dl>div{display:block}.brief-about dt{font-size:9px}.brief-about dd{font-size:13px;margin-top:3px}
+ .brief-about .page-button{min-width:0;width:100%;box-sizing:border-box}
+ .home-brief-demo .home-section{padding:30px 18px}
+ .layout-schedule{display:block}
+ .layout-schedule #brief-calendar{margin-top:20px}
+ .layout-schedule .nearest-event{margin-top:25px;display:grid;grid-template-columns:100px minmax(0,1fr);gap:8px 15px}
+ .layout-schedule .nearest-event>img{grid-column:1;grid-row:2 / 7;width:100%;aspect-ratio:4/5;margin:0}
+ .layout-schedule .nearest-event>.eyebrow{grid-column:1/-1;font-size:12px;margin-bottom:5px}
+ .layout-schedule .nearest-event>h3,.layout-schedule .nearest-event>p,.layout-schedule .nearest-event>.next-date{grid-column:2;margin:0}
+ .layout-schedule .nearest-event>.brief-pill{display:none}
+ .layout-schedule .nearest-event>.text-link{grid-column:1/-1;margin-top:10px}
+ .home-brief-demo .home-section h2{font-size:clamp(33px,6vw,56px)}
+ .wr-top-layout{grid-template-columns:minmax(0,1fr);gap:35px}
+ .home-brief-demo .wr-subsection h2{font-size:26px}
+ .frequency-log{height:auto;min-height:0}
+ .brief-resources{gap:12px}
+ .brief-resource{padding:12px;grid-template-columns:minmax(0,1fr)}
+ .resource-number{display:none}.brief-resource>.eyebrow,.brief-resource h3{grid-column:1}.resource-arrow{display:none}
+ .home-layout-footer{min-height:160px}
+}
+@media(max-width:480px){
+ .brief-about{grid-template-columns:minmax(0,1fr)}
+ .about-image>img{max-height:380px;object-fit:cover;object-position:center 35%;width:100%}
+ .brief-about>div:last-child{display:block}
+ .about-wordmark{text-align:left;float:none}.about-wordmark h1{font-size:90px}
+ .brief-about dl{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+ .brief-about dt{min-width:0}
+ .section-introduction{font-size:13px}
+}
+/* Viewport-sized chapters, using native scrolling rather than intercepting the wheel. */
+html:has(.home-brief-demo){scroll-snap-type:y proximity;scroll-behavior:smooth;scroll-padding-top:66px}
+.home-brief-demo{--home-frame:calc(100svh - 66px)}
+.home-brief-demo>.site-nav{position:sticky;top:0;z-index:40;box-sizing:border-box}
+.home-brief-demo>.brief-hero,.home-main>.brief-about,.home-main>.home-section{scroll-snap-align:start;box-sizing:border-box;min-height:var(--home-frame)}
+.home-brief-demo>.brief-hero{height:var(--home-frame);aspect-ratio:auto}
+.home-brief-demo .hero-controls{bottom:25px}
+.home-brief-demo .brief-demo-label{position:absolute;z-index:1;margin:0;padding:5px 3%;font-size:9px}
+.home-main>.brief-about{align-items:center;padding-top:40px;padding-bottom:40px}
+.home-main>.brief-about .about-image{height:min(70svh,650px)}
+.home-main>.brief-about .about-image>img{height:100%;min-height:0;max-height:100%}
+.home-main>.layout-gallery,.home-main>.layout-brands{display:flex;flex-direction:column;justify-content:center}
+.home-main>.layout-gallery .brief-photo-grid{width:100%}
+.home-main>.layout-gallery .brief-image-tile{aspect-ratio:1.15;max-height:48svh}
+.home-main>.layout-schedule{align-content:center}
+.home-main>.layout-schedule .nearest-event>img{max-height:40svh}
+.home-main>.brief-white-rose{display:flex;flex-direction:column;justify-content:center}
+@media(min-width:1100px) and (min-height:800px){
+ .home-main>.brief-white-rose{padding-top:22px;padding-bottom:22px}
+ .brief-white-rose .wr-intro{margin-bottom:18px}
+ .brief-white-rose .wr-intro h2{font-size:55px}
+ .brief-white-rose .wr-subsection h2{font-size:26px}
+ .brief-white-rose .home-section-heading{margin-bottom:12px}
+ .brief-white-rose .brief-project .brief-image-tile{aspect-ratio:16/7}
+ .brief-white-rose .frequency-log{min-height:0;height:auto;padding:14px}
+ .brief-white-rose .frequency-log li{padding:9px 0}
+ .brief-white-rose .wr-subsection{padding-bottom:50px}
+ .brief-white-rose .wr-resource-panel{margin-top:18px}
+ .brief-white-rose .brief-resource{min-height:72px;padding:10px 15px}
+ .brief-white-rose .brief-resource h3{font-size:12px}
+}
+@media(max-width:820px){
+ html:has(.home-brief-demo){scroll-padding-top:0}
+ .home-brief-demo{--home-frame:calc(100svh - 86px - env(safe-area-inset-bottom,0px))}
+ .home-main>.brief-about{grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:18px;padding-top:24px;padding-bottom:24px}
+ .home-main>.brief-about .about-image{height:54svh}
+ .home-main>.brief-about>div:last-child{display:flex}
+ .home-main>.brief-about .about-wordmark h1{font-size:clamp(50px,14vw,80px)}
+ .home-main>.brief-about dl{display:grid;grid-template-columns:1fr;gap:9px}
+ .home-main>.brief-about .about-lead{font-size:12px}
+ .home-main>.layout-schedule{display:block;padding-top:24px;padding-bottom:24px}
+ .home-main>.layout-schedule .home-section-heading h2{font-size:34px}
+ .home-main>.layout-schedule #brief-calendar{margin-top:14px}
+ #brief-calendar .compact-event-grid .month-cell{min-height:68px}
+ .home-main>.layout-schedule .nearest-event{margin-top:14px;padding-top:0}
+ .home-main>.layout-schedule .nearest-event>img{max-height:90px}
+ .home-main>.layout-schedule .nearest-event h3{font-size:19px}
+ .home-main>.layout-schedule .nearest-event>.text-link{padding:7px;margin-top:2px}
+ .home-main>.brief-white-rose{min-height:0;display:block}
+ .brief-white-rose>.wr-intro{margin-bottom:20px}
+ .brief-white-rose .wr-subsection{min-height:var(--home-frame);scroll-snap-align:start;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;padding-top:25px;padding-bottom:65px}
+ .brief-white-rose .wr-resource-panel{margin-top:0}
+ .brief-white-rose .wr-subsection>.home-section-heading>.text-link{bottom:25px}
+ .home-layout-footer{scroll-snap-align:end}
+}
+@media(prefers-reduced-motion:reduce){html:has(.home-brief-demo){scroll-behavior:auto;scroll-snap-type:none}}
+/* Shorter Schedule content inside its viewport frame. */
+.home-main>.layout-schedule{gap:12px 24px;padding-top:22px;padding-bottom:22px}
+.home-main>.layout-schedule .home-section-heading h2{font-size:clamp(38px,5.5vw,76px)}
+.layout-schedule .calendar-toolbar{padding:9px 12px}
+.layout-schedule #brief-calendar .compact-event-grid .month-cell{min-height:78px;padding:5px 6px}
+.layout-schedule .nearest-event{padding-top:8px}
+.layout-schedule .nearest-event>img{aspect-ratio:4/3;max-height:28svh;margin:10px 0}
+.layout-schedule .nearest-event h3{font-size:23px;margin:7px 0}
+.layout-schedule .nearest-event p{margin:7px 0}
+.layout-schedule .nearest-event>.text-link{padding:10px;margin-top:16px}
+@media(max-width:820px){
+ .home-main>.layout-schedule{padding-top:18px;padding-bottom:18px}
+ .home-main>.layout-schedule #brief-calendar{margin-top:10px}
+ .layout-schedule #brief-calendar .compact-event-grid .month-cell{min-height:60px;padding:4px 3px}
+ .layout-schedule .calendar-toolbar{padding:7px}
+ .home-main>.layout-schedule .nearest-event{margin-top:10px;padding:0}
+ .home-main>.layout-schedule .nearest-event>img{max-height:75px}
+ .home-main>.layout-schedule .nearest-event h3{font-size:18px}
+ .home-main>.layout-schedule .nearest-event>.text-link{padding:6px;margin-top:0}
+}
+/* Fit Schedule into a single standard viewport, including six-week months. */
+.home-main>.layout-schedule{padding-top:16px;padding-bottom:16px;gap:8px 20px}
+.home-main>.layout-schedule .home-section-heading h2{font-size:clamp(32px,7svh,62px);margin-top:4px}
+.layout-schedule .home-section-heading .eyebrow{font-size:9px}
+.layout-schedule .calendar-toolbar{padding:6px 9px}
+.layout-schedule .calendar-toolbar button,.layout-schedule .calendar-toolbar select{min-height:29px;padding:5px;font-size:11px}
+.layout-schedule #brief-calendar .compact-event-grid .month-cell{min-height:0;height:clamp(44px,9svh,66px);padding:4px;gap:2px}
+.layout-schedule #brief-calendar .compact-event-grid .calendar-day-number{font-size:17px}
+.layout-schedule .calendar-weekday{font-size:7px}
+.layout-schedule .calendar-event{padding:1px 0}
+.layout-schedule .calendar-event>time{font-size:7px;margin-bottom:0}
+.layout-schedule .calendar-event>span{font-size:9px;-webkit-line-clamp:1}
+.layout-schedule #brief-calendar>.sample-small{margin:7px 0;font-size:9px!important}
+.layout-schedule .nearest-event>.eyebrow{font-size:12px}
+.layout-schedule .nearest-event>img{max-height:23svh}
+.layout-schedule .nearest-event h3{font-size:21px}
+.layout-schedule .nearest-event>.text-link{margin-top:10px;padding:8px}
+@media(max-width:820px){
+ .home-main>.layout-schedule{padding-top:12px;padding-bottom:12px}
+ .home-main>.layout-schedule .home-section-heading h2{font-size:30px}
+ .home-main>.layout-schedule #brief-calendar{margin-top:7px}
+ .layout-schedule #brief-calendar .compact-event-grid .month-cell{height:clamp(40px,7svh,52px);padding:3px 2px}
+ .layout-schedule .nearest-event .sample-small{display:none}
+ .home-main>.layout-schedule .nearest-event{margin-top:8px;gap:5px 10px;grid-template-columns:65px minmax(0,1fr)}
+ .home-main>.layout-schedule .nearest-event>img{max-height:60px}
+ .home-main>.layout-schedule .nearest-event>.eyebrow{font-size:10px;margin:0}
+ .home-main>.layout-schedule .nearest-event h3{font-size:16px}
+ .home-main>.layout-schedule .nearest-event p{font-size:10px}
+ .home-main>.layout-schedule .nearest-event>.text-link{font-size:11px;padding:5px}
+}
+
+html.section-wheel-scroll:has(.home-brief-demo){scroll-snap-type:none;scroll-behavior:auto}

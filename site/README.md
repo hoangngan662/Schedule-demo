@@ -1,51 +1,20 @@
-# Các trang trong cùng website
-- index.html: Lịch trình hiện tại; chỉ thêm điều hướng chung.
-- profile.html: giới thiệu; chưa nhập tiểu sử chưa có nguồn.
-- gallery.html: ảnh sự kiện công khai, ảnh lớn không crop, có lọc sự kiện.
-- project.html và project-detail.html?id=UUID: dữ liệu bảng projects.
-- brand.html và brand-detail.html?id=UUID: dữ liệu bảng brands.
+# Các trang đang sử dụng
 
-Projects và brands hoàn toàn độc lập với events, không có event_id/khóa ngoại lịch trình.
-Dùng chung project Supabase hiện tại nhưng là bảng dữ liệu riêng.
-Chạy migrations/202610270001_independent_content.sql trên DB đã có,
-hoặc schema.sql trên project mới. Nhập nội dung trong Table Editor và bật is_published.
-RLS chỉ cho người xem đọc nội dung công khai; không có quyền ghi trên web.
-Không tạo bản ghi giả. Trang mới trống trước khi nhập dữ liệu.
-Ảnh bìa dùng cover_image_url; content là văn bản thuần có xuống dòng.
-Đường dẫn tương đối dùng được khi host dưới thư mục GitHub Pages.
-Điều hướng tới trang HTML riêng, không mở modal. Deploy tất cả trang cùng site/ và assets/.
-Chưa chạy migration trên Supabase thực tế.
+- index.html: Home, tổng hợp các phần chính.
+- profile.html: Profile, banner cá nhân và các dải nội dung.
+- schedule.html: lịch trình và chi tiết sự kiện.
+- gallery.html: album sự kiện, xem ảnh trong modal.
+- brand.html: Brands & Campaigns, chế độ Ring/List và modal campaign.
+- goc-bach-hong.html: WR Frequency, đọc và gửi lời nhắn.
+- project.html: WR Projects, bộ lọc, băng trôi/List và modal kèm ảnh.
+- resources.html: WR Resources, tìm kiếm, lọc chủ đề và đọc bài trong modal.
 
-## Gallery dạng album
-gallery.html hiển thị 1 card/sự kiện: ảnh bìa, tên, ngày và số ảnh.
-Bấm card đi tới gallery-album.html?id=UUID; trang album hiển thị tất cả ảnh,
-không giới hạn 5 ảnh và không dùng modal. Ảnh trong album giữ tỷ lệ gốc.
-Ảnh bìa ưu tiên is_cover, sau đó tên có main, sau đó ảnh đầu.
+## Dữ liệu và tệp hỗ trợ
 
-## Trang chủ
-index.html là Trang chủ, tổng hợp 3 lịch trình, Profile ngắn, 3 album, 3 Project và 3 Brand.
-schedule.html giữ trang Lịch trình trước đây và toàn bộ chức năng của nó.
-Nội dung Project/Brand tiếp tục đọc bảng riêng projects/brands; không suy ra từ sự kiện.
-Homepage không mở modal; nút đưa tới các trang và trang chi tiết có URL riêng.
+Giữ nguyên assets/, site/ và supabase/ khi triển khai. Các cấu hình kết nối nằm trong site/config.js, site/project-config.js và site/wishes-config.js. WR Projects dùng Supabase riêng và đọc dữ liệu qua site/project-data.js; WR Frequency dùng wishes-client.js. Xem WISHES.md và ../supabase/README.md cho thông tin cấu hình liên quan.
 
-## Góc Bạch hồng (chỉ giao diện)
-goc-bach-hong.html: trang lời nhắn màu hồng nhạt, form và lời nhắn minh họa.
-Nút Xem trước chỉ thêm một bản xem trước vào DOM, không gửi mạng hoặc lưu dữ liệu.
-Tải lại trang xóa bản xem trước. Chưa tạo/chỉnh bất kỳ bảng database nào cho mục này.
+Home, Profile, Brands và Resources hiện có nội dung minh họa. Schedule, Gallery, Projects và Frequency sử dụng kết nối dữ liệu hiện có. Việc dọn trang không thay đổi cơ sở dữ liệu.
 
-## Kết nối Góc Bạch hồng hiện tại
-Đã thay bản xem trước bằng đọc/gửi bảng wishes ở Supabase riêng.
-Xem WISHES.md để biết cấu hình, quyền cần có và kiểm tra kết nối.
+## Dọn các trang cũ
 
-## Project dùng Supabase riêng (cập nhật)
-Cấu hình site/project-config.js; database uevefacjuhituefgkbmz.
-Dùng bảng projects hiện có với các cột:
-id,title,type,by_name,actor,status,descr,region,date,budget,target,link,img,gallery,created_at.
-Không truy vấn is_published/sort_order ở account Project vì schema không có các cột đó.
-Quyền đọc do RLS/grants đã có tại project này quyết định; không sửa DB hoặc policy.
-site/project-data.js map img → ảnh bìa, descr → mô tả, link → liên kết project.
-gallery nhận JSON dạng chuỗi hoặc mảng; hỗ trợ URL string hoặc object image_url/url/src.
-Project list, project detail và mục Project trên home đều dùng account riêng.
-Brand vẫn dùng site/config.js. Bảng projects trong schema cũ không còn là nguồn của web.
-Không chạy migration independent_content lên DB Project hiện có.
-Kiểm tra UI/mapping dùng request giả lập, không ghi dữ liệu thật.
+Đã bỏ ba trang chi tiết riêng trước đây vì nội dung hiện được mở bằng modal ở trang chính. Đã bỏ hai script Home cũ không còn được trang nào gọi và phần xử lý các trang chi tiết cũ. site/pages.js hiện chỉ phục vụ Gallery; site/brand-demo.js vẫn được Home sử dụng.

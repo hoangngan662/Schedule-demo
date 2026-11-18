@@ -224,15 +224,15 @@ main{margin-top:0}
 .tg.Gameshow{background:#e8edff;color:#3a56c5}.tg.Campaign{background:#fff1d6;color:#966000}
 </style>
 <link rel="stylesheet" href="site/site.css">
-</head>
-<body>
-<div class="site-nav" role="navigation" aria-label="Điều hướng chính"><a class="site-brand" href="index.html"><img src="assets/logo-h3t.png" alt="H3T"></a><div class="site-links"><a href="index.html">Home</a><a href="schedule.html" aria-current="page">Schedule</a><details class="nav-group"><summary>Profile</summary><div><a href="profile.html#bio">Bio</a><a href="profile.html#works">Works</a><a href="profile.html#awards">Awards &amp; Nominations</a></div></details><a href="gallery.html">Gallery</a><a href="brand.html">Brands</a><details class="nav-group"><summary>Whiterose</summary><div><a href="project.html">Fan Projects</a><a href="goc-bach-hong.html">Letters to Bạch</a></div></details></div></div>
-<div class="hero"><div class="hi"><h2><i id="hm">October</i><span>Schedule</span></h2><div><q>Chỉ cần có các bạn, là hành trình nào cũng trở nên rực rỡ.</q><div>– Cường Bạch –</div></div></div></div>
+<link rel="stylesheet" href="site/schedule-layout.css"></head>
+<body class="schedule-page">
+<div class="site-nav" role="navigation" aria-label="Main navigation"><a class="site-brand" href="index.html"><img src="assets/logo-h3t.png" alt="H3T"></a><div class="site-links"><a href="index.html">Home</a><a href="profile.html">Profile</a><a href="schedule.html" aria-current="page">Schedule</a><a href="gallery.html">Gallery</a><a href="brand.html">Brands</a><details class="nav-group"><summary>White Rose</summary><div><a href="goc-bach-hong.html">WR Frequency</a><a href="project.html">WR Projects</a><a href="resources.html">WR Resources</a></div></details></div></div>
+<div class="hero"><h1 class="schedule-banner-title">Schedule</h1><div class="hi"><h2><i id="hm">October</i><span>Schedule</span></h2><div><q>Chỉ cần có các bạn, là hành trình nào cũng trở nên rực rỡ.</q><div>– Cường Bạch –</div></div></div></div>
 <main id="lich"><div class="panel">
-<div class="ctl"><div class="mn"><button id="pv">‹</button><b id="cur"></b><button id="nx">›</button><button id="cal"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4m8-4v4M4 10h16m-11 4h2m3 0h2"/></svg><input type="month" id="mi" aria-label="Chọn tháng"></button></div><div class="chips" id="chips"></div></div>
+<div class="ctl"><div class="mn"><button id="pv">‹</button><b id="cur"></b><button id="nx">›</button><button id="cal"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4m8-4v4M4 10h16m-11 4h2m3 0h2"/></svg><input type="month" id="mi" aria-label="Chọn tháng"></button></div><details class="schedule-multifilter" id="schedule-filter"><summary><span id="filter-title">Tất cả</span><span class="filter-chevron" aria-hidden="true"></span></summary><div class="filter-options" id="filter-options"></div></details><div class="filter-selected" id="filter-selected" aria-label="Bộ lọc đã chọn"></div></div>
 <div class="tl" id="list"><div class="empty">Đang tải lịch trình…</div></div>
 </div></main>
-<footer>Fan-made · Lịch trình được cập nhật thường xuyên</footer>
+<footer class="site-footer home-layout-footer"><img src="assets/logo-h3t.png" alt="H3T"><span>A fan-made space for BEX.</span></footer>
 <div id="toast"></div>
 <dialog id="gallery-dialog" class="gallery-dialog" aria-labelledby="gallery-title"><div class="viewer-head"><h3 id="gallery-title">Hình ảnh sự kiện</h3><button id="gallery-close" aria-label="Đóng gallery">×</button></div><div id="gallery-all" class="gallery-grid"></div></dialog>
 <dialog id="image-viewer" class="image-viewer" aria-label="Hình ảnh sự kiện"><div class="viewer-head"><button id="viewer-close" aria-label="Đóng ảnh">×</button></div><img id="viewer-image" alt=""></dialog>
@@ -291,7 +291,7 @@ async function fetchPublishedEvents(fetcher = fetch) {
   }
 }
 
-var all=[],loadState="loading",now=new Date(),M=now.getMonth(),Y=now.getFullYear(),TY='',Q='',open={},tab={},CP=[];
+var all=[],loadState="loading",now=new Date(),M=now.getMonth(),Y=now.getFullYear(),TY=[],Q='',open={},tab={},CP=[];
 var TYPES=['Concert','Event','Livestream','Gameshow','Brand','Campaign','Khác'],MN=['January','February','March','April','May','June','July','August','September','October','November','December'],WD=['CN','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
 var $=function(i){return document.getElementById(i)};
 function esc(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML}
@@ -308,7 +308,12 @@ function eventTypes(e){
 }
 function typeBadges(e){return eventTypes(e).map(function(t){return '<span class="tg '+esc(t)+'">'+esc(t)+'</span>'}).join('')}
 function pad(n){return n<10?'0'+n:n}
-function chips(){$('chips').innerHTML=['Tất cả'].concat(TYPES).map(function(t){return '<button class="chip'+((t==='Tất cả'?'':t)===TY?' on':'')+'" data-ty="'+(t==='Tất cả'?'':t)+'">'+t+'</button>'}).join('')}
+function chips(){
+ $('filter-title').textContent=TY.length?'Loại sự kiện ('+TY.length+')':'Tất cả';
+ $('filter-options').innerHTML=TYPES.map(function(t){return '<label><input type="checkbox" data-filter-type="'+esc(t)+'"'+(TY.indexOf(t)>=0?' checked':'')+'><span>'+esc(t)+'</span></label>'}).join('')+'<button type="button" class="filter-clear" id="filter-clear">Bỏ chọn tất cả</button>';
+ $('filter-selected').innerHTML=TY.map(function(t,i){return '<button type="button" class="filter-tag filter-tag-'+i%3+'" data-remove-type="'+esc(t)+'" aria-label="Bỏ lọc '+esc(t)+'"><span aria-hidden="true">×</span> '+esc(t)+'</button>'}).join('');
+}
+
 function todayKey(){
  var parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Ho_Chi_Minh',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
  var values={};parts.forEach(function(p){values[p.type]=p.value});
@@ -321,7 +326,7 @@ function isToday(e,day){
 function render(){
  CP=[];$('cur').textContent='Tháng '+(M+1)+' / '+Y;$('hm').textContent=MN[M];$('mi').value=Y+'-'+pad(M+1);chips();
  var q=Q.toLowerCase(),today=todayKey();
- var ev=all.filter(function(e){if(!e.date)return false;var d=ts(e.date);return d.getMonth()===M&&d.getFullYear()===Y&&(!TY||eventTypes(e).indexOf(TY)>=0)&&(!q||((e.name||'')+(e.location||'')).toLowerCase().indexOf(q)>=0)})
+ var ev=all.filter(function(e){if(!e.date)return false;var d=ts(e.date);return d.getMonth()===M&&d.getFullYear()===Y&&(!TY.length||eventTypes(e).some(function(type){return TY.indexOf(type)>=0}))&&(!q||((e.name||'')+(e.location||'')).toLowerCase().indexOf(q)>=0)})
   .sort(function(a,b){return Number(isToday(b,today))-Number(isToday(a,today))||(a.date+(a.start||'')).localeCompare(b.date+(b.start||''))||(a.order||0)-(b.order||0)});
  if(loadState!=='ready'){
   $('list').innerHTML=loadState==='loading'?'<div class="empty" role="status">Đang tải lịch trình…</div>':'<div class="empty" role="alert">Không tải được lịch trình. Vui lòng thử lại.<br><button class="chip" data-retry>Thử lại</button></div>';return;
@@ -348,15 +353,9 @@ function body(e,s,time,d){
  var notes=Array.isArray(e.notes)?e.notes:(e.notes?[e.notes]:(e.desc?[e.desc]:[]));
  var links=Array.isArray(e.links)?e.links.filter(function(l){return /^https?:/.test(l.url||'')}):[];
  if(/^https?:/.test(e.link||''))links.splice(1,0,{title:'Bản đồ địa điểm',url:e.link});if(/^https?:/.test(e.source||''))links.splice(2,0,{title:'Thông báo chính thức',url:e.source});
- var dd=pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear();
- var h='<div class="bd" id="detail-'+esc(e.id)+'"><div><h4>Thông tin sự kiện</h4>';
- h+='<div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4m8-4v4M4 10h16m-11 4h2m3 0h2"/></svg>Thời gian</span><div>'+esc(time)+' | '+WD[d.getDay()]+', '+dd+(e.endDate?' → '+esc(e.endDate.split('-').reverse().join('/')):'')+'</div></div>';
- h+='<div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2"/></svg>Địa điểm</span><div>'+esc(e.location||'Đang cập nhật')+'</div></div>';
- if(/^https?:/.test(e.link||''))h+='<div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m10 14 4-4m-6 6-2 2a4 4 0 0 1-6-6l4-4m12 8 4-4a4 4 0 0 0-6-6l-2 2"/></svg>Link bản đồ</span><div><a href="'+esc(e.link)+'" target="_blank" rel="noopener">Xem trên Google Maps ↗</a></div></div>';
- h+='<div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8l10 10-8 8L3 11Z"/><circle cx="7" cy="7" r="1"/></svg>Loại sự kiện</span><div>'+typeBadges(e)+'</div></div>';
- if(/^https?:/.test(e.source||''))h+='<div class="ir"><span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg>Nguồn</span><div><a href="'+esc(e.source)+'" target="_blank" rel="noopener">'+esc(e.sourceLabel||'Thông tin chính thức')+' ↗</a></div></div>';
+ var h='<div class="bd" id="detail-'+esc(e.id)+'"><div>';
  if(notes.length)h+='<div class="note"><b>⚠ Lưu ý</b><ul>'+notes.map(function(n){return '<li>'+esc(n)+'</li>'}).join('')+'</ul></div>';
- h+='</div><div><h4>Topic gợi ý</h4>';
+ h+='<h4>Topic gợi ý</h4>';
  if(tabs.length)h+='<div class="tabs">'+tabs.map(function(p){return '<button data-tab="'+esc(p)+'" data-e="'+esc(e.id)+'" class="'+(p===cur?'on':'')+'">'+esc(p)+'</button>'}).join('')+'</div>';
  function field(label,value){
   h+='<h4>'+label+'</h4>';
@@ -402,6 +401,20 @@ document.addEventListener('click',function(ev){
 });
 function fixd(){if(window.innerWidth>820)[].forEach.call(document.querySelectorAll('[data-d]'),function(d){d.open=true})}
 function mv(n){M+=n;if(M<0){M=11;Y--}if(M>11){M=0;Y++}render();fixd()}
+$('filter-options').addEventListener('change',function(ev){
+ var input=ev.target.closest('[data-filter-type]');if(!input)return;
+ var value=input.getAttribute('data-filter-type');
+ TY=input.checked?TY.concat([value]).filter(function(t,i,a){return a.indexOf(t)===i}):TY.filter(function(t){return t!==value});
+ render();fixd();
+ var replacement=Array.from(this.querySelectorAll('input')).find(function(node){return node.getAttribute('data-filter-type')===value});if(replacement)replacement.focus();
+});
+document.addEventListener('click',function(ev){
+ var remove=ev.target.closest('[data-remove-type]'),clear=ev.target.closest('#filter-clear');
+ if(remove||clear){TY=clear?[]:TY.filter(function(t){return t!==remove.getAttribute('data-remove-type')});render();fixd();$('schedule-filter').querySelector('summary').focus();}
+ else if(!ev.target.closest('#schedule-filter'))$('schedule-filter').open=false;
+});
+$('schedule-filter').addEventListener('keydown',function(ev){if(ev.key==='Escape'){this.open=false;this.querySelector('summary').focus();}});
+
 $('pv').onclick=function(){mv(-1)};$('nx').onclick=function(){mv(1)};
 $('mi').onchange=function(){var v=this.value.split('-');if(v.length==2){Y=+v[0];M=+v[1]-1;render();fixd()}};
 window.addEventListener('resize',function(){document.querySelectorAll('[data-d]').forEach(function(d){d.open=window.innerWidth>820})});

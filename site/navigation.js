@@ -26,14 +26,14 @@ const navIcons = {
   Brands: 'M3 4h9l9 9-8 8-10-10z M8 8h.01',
   Whiterose: 'M12 20S3 15 3 9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 11-9 11z'
 };
+navIcons['White Rose'] = navIcons.Whiterose;
 const bottomNav = matchMedia('(max-width: 820px)');
 document.querySelectorAll('.site-nav').forEach(nav => {
   const links = nav.querySelector('.site-links');
   if (!links) return;
   const groups = [...links.querySelectorAll('.nav-group')];
   const currentFile = location.pathname.split('/').pop();
-  const detailParent = {'gallery-album.html':'gallery.html','brand-detail.html':'brand.html','project-detail.html':'project.html'};
-  const route = detailParent[currentFile] || currentFile || 'index.html';
+  const route = currentFile || 'index.html';
   for (const item of links.children) {
     const control = item.matches('details') ? item.querySelector('summary') : item;
     const label = control.textContent.trim(), path = navIcons[label];
