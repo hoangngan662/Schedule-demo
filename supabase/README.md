@@ -105,3 +105,7 @@ Project mới: schema.sql đã bao gồm thay đổi.
 - Người xem chỉ đọc chiến dịch khi cả thương hiệu và chiến dịch đều is_published=true.
 - Muốn xóa thương hiệu có chiến dịch, xử lý các chiến dịch trước.
 - Bảng này độc lập với Lịch trình và Project. Giao diện Brand chưa đọc logo/chiến dịch.
+
+
+## Nội dung website (19/11/2026)
+Xem [WEBSITE-CONTENT.md](WEBSITE-CONTENT.md) và migration `202611190001_website_content.sql` để bổ sung banner, Profile, Brands/Campaigns và Resources. Chưa áp dụng lên database thật.

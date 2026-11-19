@@ -232,7 +232,7 @@ main{margin-top:0}
 <div class="ctl"><div class="mn"><button id="pv">‹</button><b id="cur"></b><button id="nx">›</button><button id="cal"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4m8-4v4M4 10h16m-11 4h2m3 0h2"/></svg><input type="month" id="mi" aria-label="Chọn tháng"></button></div><details class="schedule-multifilter" id="schedule-filter"><summary><span id="filter-title">Tất cả</span><span class="filter-chevron" aria-hidden="true"></span></summary><div class="filter-options" id="filter-options"></div></details><div class="filter-selected" id="filter-selected" aria-label="Bộ lọc đã chọn"></div></div>
 <div class="tl" id="list"><div class="empty">Đang tải lịch trình…</div></div>
 </div></main>
-<footer class="site-footer home-layout-footer"><img src="assets/logo-h3t.png" alt="H3T"><span>A fan-made space for BEX.</span></footer>
+<footer class="site-footer home-layout-footer"><img src="assets/logo-h3t.png" alt="H3T"><span>A fan-made space for BEX.</span><nav class="footer-navigation" aria-label="Điều hướng cuối trang"><a href="index.html">Home</a><a href="profile.html">Profile</a><a href="schedule.html" aria-current="page">Schedule</a><a href="gallery.html">Gallery</a><a href="brand.html">Brands</a><a href="frequency.html">WR Frequency</a><a href="project.html">WR Projects</a><a href="resources.html">WR Resources</a></nav></footer>
 <div id="toast"></div>
 <dialog id="gallery-dialog" class="gallery-dialog" aria-labelledby="gallery-title"><div class="viewer-head"><h3 id="gallery-title">Hình ảnh sự kiện</h3><button id="gallery-close" aria-label="Đóng gallery">×</button></div><div id="gallery-all" class="gallery-grid"></div></dialog>
 <dialog id="image-viewer" class="image-viewer" aria-label="Hình ảnh sự kiện"><div class="viewer-head"><button id="viewer-close" aria-label="Đóng ảnh">×</button></div><img id="viewer-image" alt=""></dialog>
@@ -504,5 +504,5 @@ if(requestedMonth&&/^[1-9][0-9]{3}-(0[1-9]|1[0-2])$/.test(requestedMonth)){
 }
 loadEvents();
 </script>
-<script src="site/navigation.js"></script></body>
+<script src="site/config.js"></script><script src="site/content-client.js"></script><script src="site/navigation.js"></script><script src="site/content-banner.js"></script></body>
 </html>

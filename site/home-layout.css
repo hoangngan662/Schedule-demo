@@ -98,7 +98,7 @@
  .section-introduction{font-size:13px}
 }
 /* Viewport-sized chapters, using native scrolling rather than intercepting the wheel. */
-html:has(.home-brief-demo){scroll-snap-type:y proximity;scroll-behavior:smooth;scroll-padding-top:66px}
+html:has(.home-brief-demo){scroll-snap-type:none;scroll-behavior:smooth;scroll-padding-top:66px}
 .home-brief-demo{--home-frame:calc(100svh - 66px)}
 .home-brief-demo>.site-nav{position:sticky;top:0;z-index:40;box-sizing:border-box}
 .home-brief-demo>.brief-hero,.home-main>.brief-about,.home-main>.home-section{scroll-snap-align:start;box-sizing:border-box;min-height:var(--home-frame)}
@@ -204,4 +204,3 @@ html:has(.home-brief-demo){scroll-snap-type:y proximity;scroll-behavior:smooth;s
  .home-main>.layout-schedule .nearest-event>.text-link{font-size:11px;padding:5px}
 }
 
-html.section-wheel-scroll:has(.home-brief-demo){scroll-snap-type:none;scroll-behavior:auto}

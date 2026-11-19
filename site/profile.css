@@ -57,7 +57,7 @@
 @media(prefers-reduced-motion:reduce){.artist-track{scroll-behavior:auto}}
 
 /* Each Profile chapter fills a viewport; horizontal browsing stays independent. */
-html:has(.profile-page){scroll-padding-top:66px;scroll-snap-type:y proximity;scroll-behavior:smooth}
+html:has(.profile-page){scroll-padding-top:66px;scroll-snap-type:none;scroll-behavior:smooth}
 .profile-page .artist-banner,.profile-page .artist-section{min-height:calc(100svh - 66px);scroll-snap-align:start}
 .profile-page .artist-section{display:flex;flex-direction:column;justify-content:center;padding:22px 0}
 .profile-page .artist-section-heading{margin-bottom:8px}
@@ -87,7 +87,6 @@ html:has(.profile-page){scroll-padding-top:66px;scroll-snap-type:y proximity;scr
 @media(max-width:820px){.profile-page .site-nav{padding:5px;min-height:0}.profile-page .home-layout-footer{min-height:160px}}
 
 /* A single scroll controller on desktop; retain native snapping on touch. */
-html.section-wheel-scroll:has(.profile-page){scroll-snap-type:none;scroll-behavior:auto}
 
 /* Hide the scrollbar while preserving swipe and horizontal scrolling. */
 .artist-track{scrollbar-width:none;-ms-overflow-style:none}

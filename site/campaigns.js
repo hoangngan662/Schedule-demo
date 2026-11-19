@@ -1,35 +1,42 @@
 (() => {
  const $=id=>document.getElementById(id),el=(tag,cls,text)=>{const n=document.createElement(tag);n.className=cls;if(text)n.textContent=text;return n;};
- const pictures=['assets/page-background.jpg','assets/wall.jpg','assets/event-default.jpg'];
- const campaigns=window.CAMPAIGN_DEMO_BRANDS.flatMap(brand=>brand.campaigns.map(campaign=>({...campaign,brand}))).map((item,index)=>({...item,image:pictures[index%pictures.length]}));
+ let campaigns=[];
  let current=0,view='ring',ringStart=null;
- function logo(brand){return el('div','campaign-logo '+brand.tone,brand.logo);}
+ function logo(brand){const box=el('div','campaign-logo',brand.title);if(ContentDB.safe(brand.logo_url)){box.textContent='';box.append(ContentDB.image(brand.logo_url,brand.title));}return box;}
  function open(item){
   const body=$('campaign-body'),top=el('div','campaign-modal-top'),image=el('img','');
-  image.src=item.image;image.alt='Sample artwork · '+item.title;top.append(image,logo(item.brand));
+  if(item.image)image.src=item.image;else image.hidden=true;image.alt=item.title;top.append(image,logo(item.brand));
   const title=el('h2','',item.title);title.id='campaign-title';
-  const tags=el('div','campaign-tags');[item.jobType,item.credit].forEach(tag=>tags.append(el('span','',tag)));
+  const tags=el('div','campaign-tags');[item.jobType,item.credit,...(item.tags||[])].filter(Boolean).forEach(tag=>tags.append(el('span','',tag)));
   const lower=el('div','campaign-modal-lower'),photos=el('div','campaign-photos'),links=el('div','campaign-posts');
-  pictures.forEach((src,i)=>{const img=el('img','');img.src=src;img.alt='Sample campaign image '+(i+1);img.loading='lazy';photos.append(img);});
+  item.photos.forEach(photo=>photos.append(ContentDB.image(photo.image_url,photo.alt_text||photo.caption||item.title)));
   links.append(el('h3','','Related posts'));
-  if(/^https?:\/\//.test(item.postUrl||'')){const a=el('a','text-link','View sample post ↗');a.href=item.postUrl;a.target='_blank';a.rel='noopener noreferrer';links.append(a);}
-  links.append(el('p','sample-link-note','Link và ảnh minh họa; chưa phải nội dung chiến dịch thực tế.'));
+  item.links.forEach(link=>{if(!ContentDB.safe(link.url))return;const a=el('a','text-link',link.title+' ↗');a.href=link.url;a.target='_blank';a.rel='noopener noreferrer';links.append(a);});
   lower.append(photos,links);
   body.replaceChildren(top,title,el('p','campaign-brand-name',item.brand.title),el('p','campaign-date',item.date),tags,el('p','campaign-description',item.description),lower);
   $('campaign-dialog').showModal();$('campaign-dialog').scrollTop=0;document.documentElement.classList.add('campaign-modal-open');$('campaign-close').focus();
  }
  function card(item,index){
   const button=el('button','campaign-card');button.type='button';button.setAttribute('aria-haspopup','dialog');button.setAttribute('aria-label',item.brand.title+' · '+item.title);
-  const image=el('img','');image.src=item.image;image.alt='';image.loading='lazy';
+  const image=el('img','');if(item.image)image.src=item.image;else image.hidden=true;image.alt='';image.loading='lazy';
   button.append(image,logo(item.brand),el('span','campaign-card-name',item.title));
   button.addEventListener('click',()=>open(item));
   return button;
  }
- campaigns.forEach((item,i)=>$('campaign-list').append(card(item,i)));
  const stage=$('ring-stage');
- campaigns.forEach((item,i)=>stage.append(card(item,i)));
- // Repeat the strip once for a seamless loop; duplicates do not enter keyboard order.
- campaigns.forEach((item,i)=>{const duplicate=card(item,i);duplicate.tabIndex=-1;duplicate.setAttribute('aria-hidden','true');stage.append(duplicate);});
+ const status=document.querySelector('.campaign-toolbar>p');
+ ContentDB.run(status,async()=>{
+  const [brands,rows]=await Promise.all([
+   ContentDB.list('brands',{is_published:'eq.true'}),
+   ContentDB.list('brand_campaigns',{select:'*,campaign_images(*),campaign_links(*)',is_published:'eq.true'})
+  ]);
+  campaigns=rows.map(row=>({...row,brand:brands.find(b=>b.id===row.brand_id),image:ContentDB.safe(row.cover_image_url),jobType:row.participation_type==='group'?'Cùng nhóm':row.participation_type==='individual'?'Cá nhân':'',date:[row.starts_on,row.ends_on].filter(Boolean).join(' — '),photos:(row.campaign_images||[]).filter(p=>p.is_published).sort((a,b)=>a.sort_order-b.sort_order),links:[...(row.campaign_links||[]).filter(p=>p.is_published).sort((a,b)=>a.sort_order-b.sort_order),...(row.website_url?[{title:'Trang chiến dịch',url:row.website_url}]:[])]})).filter(row=>row.brand);
+  status.textContent=campaigns.length+' campaigns';
+  stage.replaceChildren();$('campaign-list').replaceChildren();
+  if(!campaigns.length){ContentDB.empty(stage);ContentDB.empty($('campaign-list'));return;}
+  campaigns.forEach((item,i)=>{$('campaign-list').append(card(item,i));stage.append(card(item,i));});
+  for(let repeat=0;repeat<Math.max(1,Math.ceil(8/campaigns.length));repeat++)campaigns.forEach((item,i)=>{const duplicate=card(item,i);duplicate.tabIndex=-1;duplicate.setAttribute('aria-hidden','true');stage.append(duplicate);});
+ });
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  let pointerPaused=false,lastFrame=0,frameId;
  function loopWidth(){

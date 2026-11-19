@@ -181,3 +181,18 @@ button.brand-demo-card{width:100%;padding:0;cursor:pointer;font:inherit}
  .site-nav.mobile-nav-ready .nav-group>summary[aria-current]{color:#d91b36}
  .mobile-nav-toggle:focus-visible{outline:2px solid #d91b36;outline-offset:3px}
 }
+
+/* Secondary navigation shared by every page footer. */
+.footer-navigation{display:flex;justify-content:center;flex-wrap:wrap;gap:14px 26px;width:100%;max-width:1000px;margin:8px auto 0;padding:16px 10px;font:13px/1.5 "Segoe UI",Arial,sans-serif}
+.footer-navigation a{color:inherit;text-decoration:none;white-space:nowrap;padding:5px 0}
+.footer-navigation a:hover,.footer-navigation a[aria-current=page]{color:#bc2138}
+.footer-navigation a:focus-visible{outline:2px solid #bc2138;outline-offset:4px}
+@media(max-width:600px){.footer-navigation{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 20px;text-align:center;padding:12px 18px}.footer-navigation a{padding:8px 0}}
+
+.banner-data-status{position:absolute;inset:auto 5% 12%;z-index:2;font-size:13px;color:inherit}
+.banner-data-status:empty{display:none}
+.banner-data-status .page-status{padding:10px;background:#fffdfbe6;color:#253040;border-radius:8px}
+.database-banner-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.campaign-logo img{display:block;max-width:100%;max-height:100%;object-fit:contain}
+.resource-article-copy p{white-space:pre-wrap}
+img[hidden]{display:none!important}
