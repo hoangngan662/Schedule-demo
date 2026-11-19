@@ -18,11 +18,11 @@
  function node(tag,cls,text){const n=document.createElement(tag);n.className=cls||'';if(text!=null)n.textContent=text;return n;}
  function image(src,alt=''){const img=node('img');const url=safe(src);if(url)img.src=url;else img.hidden=true;img.alt=alt;img.loading='lazy';img.addEventListener('error',()=>{img.hidden=true;},{once:true});return img;}
  async function run(root,task){
-  if(!root)return;root.replaceChildren(node('p','page-status','Đang tải nội dung…'));
+  if(!root)return;const loadingDone=window.SiteLoading?.begin()||(()=>{});root.replaceChildren(node('p','page-status','Đang tải nội dung…'));
   try{await task();}catch(error){
    console.error('Content loading:',error.message);const box=node('div','page-status','Chưa tải được dữ liệu.');
    const retry=node('button','page-button','Thử lại');retry.type='button';retry.onclick=()=>run(root,task);box.append(document.createElement('br'),retry);root.replaceChildren(box);
-  }
+  }finally{loadingDone();}
  }
  function empty(root,text='Nội dung đang được cập nhật.'){root.replaceChildren(node('p','page-status',text));}
  const categories={guide:'Hướng dẫn',analysis:'Phân tích',sharing:'Chia sẻ'};

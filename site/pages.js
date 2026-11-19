@@ -62,14 +62,7 @@
   async function load() {
     const current=++generation;status('Đang chuẩn bị không gian ảnh…');
     try {
-      const config=window.SITE_CONFIG;
-      const url=new URL('/rest/v1/events',config.SUPABASE_URL);
-      url.searchParams.set('select','id,name,event_date,location,thumbnail_url,drive_folder_url,event_images(*)');
-      url.searchParams.set('is_published','eq.true');
-      url.searchParams.set('order','event_date.desc');
-      const response=await fetch(url,{headers:{apikey:config.SUPABASE_PUBLISHABLE_KEY},signal:AbortSignal.timeout(20000)});
-      if(!response.ok)throw new Error('Request failed: '+response.status);
-      const data=await response.json();if(!Array.isArray(data))throw new Error('Invalid data');
+      const data=await ContentDB.list('events',{select:'id,name,event_date,location,thumbnail_url,drive_folder_url,event_images(*)',is_published:'eq.true',order:'event_date.desc'});
       const cache=new Map();
       for(let i=0;i<data.length;i+=4)await Promise.all(data.slice(i,i+4).map(async event=>{
         event.thumb=event.thumbnail_url;
@@ -82,5 +75,5 @@
       status('Chưa tải được nội dung. Bạn thử lại sau nhé.',true);if(page==='gallery')document.getElementById('image-count').textContent='';
     }
   }
-  load();
+  if(window.SiteLoading)SiteLoading.track(load());else load();
 })();

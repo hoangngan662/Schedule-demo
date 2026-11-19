@@ -14,7 +14,7 @@
     const group = target.parentElement;
     const siblings = [...group.children].filter(node => targets.includes(node));
     const delay = Math.min(Math.max(siblings.indexOf(target),0) * 65,195);
-    const photo = target.matches('.about-image,.brief-image-tile,.brief-project');
+    const photo = target.matches('.brief-image-tile,.brief-project');
     const from = photo
       ? {opacity:0, transform:'translateY(24px) scale(.975)', clipPath:'inset(5% 0 0 0)'}
       : {opacity:0, transform:'translateY(22px)'};

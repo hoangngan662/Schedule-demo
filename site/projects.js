@@ -159,5 +159,5 @@
  $('project-lightbox').addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+photos.length)%photos.length;renderPhoto();}});
  $('project-lightbox').addEventListener('close',()=>{$('project-photo').removeAttribute('src');});
  ['project-modal','project-lightbox'].forEach(id=>$(id).addEventListener('click',event=>{if(event.target!==$(id))return;const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)event.target.close();}));
- load();
+ if(window.SiteLoading)SiteLoading.track(load());else load();
 })();

@@ -72,6 +72,6 @@
     }finally{sending=false;submit.disabled=false;submit.textContent='Gửi lời nhắn ↗';form.removeAttribute('aria-busy');}
   });
   more.addEventListener('click',()=>load());
-  try{client=createWishesClient(window.WISHES_CONFIG);load(true);}
+  try{client=createWishesClient(window.WISHES_CONFIG);if(window.SiteLoading)SiteLoading.track(load(true));else load(true);}
   catch(error){listState('Chưa kết nối được Góc Bạch hồng.');submit.disabled=true;feedback.textContent='Chưa thể gửi lời nhắn lúc này.';}
 })();

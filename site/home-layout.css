@@ -108,6 +108,9 @@ html:has(.home-brief-demo){scroll-snap-type:none;scroll-behavior:smooth;scroll-p
 .home-main>.brief-about{align-items:center;padding-top:40px;padding-bottom:40px}
 .home-main>.brief-about .about-image{height:min(70svh,650px)}
 .home-main>.brief-about .about-image>img{height:100%;min-height:0;max-height:100%}
+.home-main>.brief-about .about-image{border-radius:30px;overflow:hidden}
+.home-main>.brief-about .about-image>img{border-radius:inherit}
+@media(max-width:820px){.home-main>.brief-about .about-image{border-radius:16px}}
 .home-main>.layout-gallery,.home-main>.layout-brands{display:flex;flex-direction:column;justify-content:center}
 .home-main>.layout-gallery .brief-photo-grid{width:100%}
 .home-main>.layout-gallery .brief-image-tile{aspect-ratio:1.15;max-height:48svh}
