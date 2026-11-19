@@ -1,0 +1,92 @@
+/* Shared midnight / electric-blue theme, loaded after page styles. */
+@media(min-width:821px){
+ body.schedule-page .hero,body .campaigns-banner,body .projects-banner,body .resources-banner{
+  height:calc(100svh - var(--site-nav-height,66px));
+  min-height:0;max-height:calc(100svh - var(--site-nav-height,66px));
+  aspect-ratio:auto;box-sizing:border-box;overflow:hidden;
+ }
+ body.schedule-page .hero>img,body .campaigns-banner>img,body .projects-banner>img,body .resources-banner>img{
+  position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;
+ }
+}
+:root,:root[data-theme]{color-scheme:dark;--bg:#040c1c;--card:#0c1c36;--ink:#edf4ff;--mute:#a3b7d2;--line:#9cc9ff26;--red:#72deff;--rs:#102e50;--ok:#7ce7c8;--oks:#10352f;--wn:#f1d098;--wns:#352c20;--theme-text:#edf4ff;--theme-muted:#a3b7d2;--theme-accent:#72deff;--theme-line:#9cc9ff26;--theme-panel:linear-gradient(135deg,#112647eb,#0a162de8);--theme-action:linear-gradient(115deg,#0754da,#1769ee 48%,#6955dc)}
+html{background:#040c1c}
+body.editorial-page,body.schedule-page{background-color:var(--bg);background-image:radial-gradient(ellipse at 95% 12%,#075bf042,transparent 36%),radial-gradient(ellipse at 0% 48%,#674cce2b,transparent 32%),radial-gradient(ellipse at 75% 85%,#00b7dc1c,transparent 35%);background-size:100% 2200px;background-repeat:repeat-y;color:var(--theme-text)}
+body .site-nav{background:#060f22ed;color:#e1edff;border-color:var(--theme-line);box-shadow:0 8px 32px #0002;backdrop-filter:blur(18px)}
+body .site-links a[aria-current=page],body .nav-group>summary[aria-current]{color:var(--theme-accent)}
+body .site-links a[aria-current=page]:after{background:linear-gradient(90deg,#3a7aff,#72edff)}
+body .nav-group>div{background:#0b1932;color:var(--theme-text);border-color:var(--theme-line);box-shadow:0 15px 40px #0005}
+body .site-links a:hover,body .footer-navigation a:hover,body .footer-navigation a[aria-current=page]{color:var(--theme-accent)}
+body .mobile-nav-toggle{background:#10223d;border-color:var(--theme-line);color:var(--theme-text)}
+body .eyebrow,body .resource-number,body .resource-arrow,body .signal-frequency,body .signal-play{color:var(--theme-accent)}
+body .about-lead,body .section-introduction,body .page-intro p,body .brief-about dt,body .artist-description,body .artist-section-heading p,body .project-preview p,body .project-modal-facts dt,body .album-modal-header p,body .campaign-date,body .resource-list-meta,body .frequency-hero>p,body .frequency-dashboard,body .signal-meta,body .signal-author,body .frequency-list-heading>span,body .frequency-list-heading h2 span{color:var(--theme-muted)}
+body .artist-intro,body .artist-section-heading,body .about-wordmark,body .brief-about dd{color:var(--theme-text)}
+body .page-button,body #frequency-write{background:var(--theme-action);border:1px solid #80baff66;color:#fff;box-shadow:0 8px 26px #075bec26}
+body .page-button:hover,body #frequency-write:hover{filter:brightness(1.12)}
+body .text-link{color:#b6ddff;border-color:#729fcb66}
+body .home-section,body .brief-white-rose,body .wr-subsection,body .artist-section,body .profile-jump{background:transparent;border-color:var(--theme-line)}
+body .home-layout-footer,body .site-footer{background:linear-gradient(115deg,#071125,#102750 60%,#15193c);color:var(--theme-muted);border-color:var(--theme-line)}
+body .nearest-event,body .brief-project,body .brief-resource,body .artist-card,body .project-preview,body .campaign-card,body .resource-card,body .frequency-entries,body .frequency-log{background:var(--theme-panel);color:var(--theme-text);border-color:var(--theme-line);box-shadow:0 12px 40px #0002}
+body .brief-project p,body .brief-resource .eyebrow,body .artist-card-info p,body .artist-card-timeline,body .projects-toolbar>span,body .campaign-toolbar>p,body #project-filter-count,body #projects-status{color:var(--theme-muted)}
+body .artist-card-media,body .project-modal-hero,body .brief-hero,body .artist-banner,body .projects-banner,body .campaigns-banner,body .resources-banner{background-color:#08172f}
+body .frequency-entry,body .frequency-log li,body .project-filters,body .project-modal-facts,body .album-toolbar,body .resource-sample-note{border-color:var(--theme-line)}
+body .frequency-motto{color:#b5afff;text-shadow:0 0 35px #624df866}
+body .frequency-status,body .frequency-status>span:last-child,body .frequency-log time,body .signal-index{color:#a2c3e6}
+body .signal-dot,body .calendar-signal{background:#73e3ff;box-shadow:0 0 12px #31a9ff88}
+body .project-preview-tags>span,body .artist-card-tags span,body .brief-pill,body .campaign-tags span,body .resource-tags span{background:#164065;color:#b9f2ff}
+body .resource-tags span:nth-child(2),body .artist-card-tags span:nth-child(2){background:#272859;color:#d1caff}
+body .resource-tags span:nth-child(3){background:#13413e;color:#a9ecdf}
+body .projects-toolbar>div,body .campaign-view{background:#07152d;border-color:var(--theme-line)}
+body .projects-toolbar button,body .campaign-view button{color:var(--theme-muted)}
+body .projects-toolbar button[aria-pressed=true],body .campaign-view button[aria-pressed=true],body .project-type-button[aria-pressed=true],body #resource-topics button[aria-pressed=true]{background:var(--theme-action);border-color:#648cdb;color:white}
+body .project-filters input,body .project-filters select,body .resource-search-row input,body #project-filter-toggle,body .project-type-button,body #resource-topics button,body #resource-more,body .rose-more,body .frequency-compose input,body .frequency-compose textarea{background:#0b1c35;color:var(--theme-text);border-color:#7ea9db40}
+body input::placeholder,body textarea::placeholder{color:#94abc8;opacity:1}
+body #project-filter-toggle[aria-expanded=true],body .resource-search-row button[aria-expanded=true]{background:#123557;color:var(--theme-accent)}
+body .resource-search-row button{color:var(--theme-muted)}
+body .calendar-toolbar button,body .calendar-toolbar select{background:#0b1c35;color:var(--theme-text);border-color:var(--theme-line)}
+body .month-cell{background:#091a32;border-color:var(--theme-line);color:var(--theme-text)}
+body .month-today{background:#102f55;box-shadow:inset 0 0 0 1px #67d7ff}
+body .calendar-event{background:#133759;color:#d4f3ff;border-color:#669ed53d}
+body .calendar-event time,body .calendar-weekday{color:#9dbbd9}
+body .calendar-outside{opacity:.35}
+body .page-status,body .rose-list-status,body #resource-empty,body .banner-data-status{color:var(--theme-muted)}
+body .banner-data-status .page-status{background:#07172eea;color:var(--theme-text);border:1px solid var(--theme-line)}
+body .artist-banner-shade{background:linear-gradient(90deg,transparent 10%,#06122b55 42%,#060e20f2 100%)}
+body .hero-caption{background:linear-gradient(90deg,#030d2599,transparent 75%)}
+body dialog,body #resource-dialog{background:linear-gradient(145deg,#102443,#08152b);color:var(--theme-text);border:1px solid #80a9df33;box-shadow:0 30px 100px #0009}
+body dialog::backdrop{background:#010819c9;backdrop-filter:blur(7px)}
+body .project-close,body #resource-close,body #event-album-close,body #frequency-close,body .campaign-close,body .lightbox-toolbar button,body .lightbox-content button{background:#193450;color:#9deaff;border-color:var(--theme-line)}
+body .project-modal-heading,body .resource-article-copy a,body #frequency-list-feedback{color:var(--theme-accent)}
+body .resource-sample-note{color:var(--theme-muted)}
+body .schedule-page,body.schedule-page{--bg:#040c1c;--card:#0c1c36;--ink:#edf4ff;--mute:#a3b7d2;--line:#9cc9ff26;--red:#72deff;--rs:#102e50}
+body.schedule-page .row,body.schedule-page .row.open{background:var(--theme-panel);border-color:var(--theme-line)}
+body.schedule-page .row.today{background:linear-gradient(115deg,#12345d,#102244);border-color:#5bb4e588}
+body.schedule-page .tg{background:#173656;color:#b5dfff}
+body.schedule-page .tg.Livestream{background:#302653;color:#dac4ff}
+body.schedule-page .tg.soon{background:#143d34;color:#a2ead0}
+body.schedule-page .tg.live{background:#423522;color:#ffe0a7}
+body.schedule-page .tg.done{background:#25334b;color:#b3c4dd}
+body.schedule-page .th{background:linear-gradient(135deg,#143365,#24204c);color:#a8ddff}
+body.schedule-page :is(.cp,.note,.link,.topic,.tabs,.hash,.box,.detail,.dtl){border-color:var(--theme-line)}
+html.site-loading #site-loading-banner,#site-loading-banner.is-finished{background:radial-gradient(ellipse at 80% 75%,#075bed88,transparent 52%),radial-gradient(ellipse at 5% 10%,#7658cd44,transparent 45%),#040c1c;color:var(--theme-text)}
+#site-loading-banner .loading-caption{color:#a5bee0}
+#site-loading-banner .loading-mark:before{border-color:#406ca64d;border-top-color:#7be9ff}
+#site-loading-banner .loading-mark:after{border-color:#406ca64d;border-bottom-color:#9b8aff}
+body :is(a,button,input,select,textarea):focus-visible{outline-color:#7ee9ff!important}
+::selection{background:#3469c9;color:#fff}
+body .artist-card-info{background:var(--theme-panel);border-color:var(--theme-line)}
+body .artist-card-timeline span{color:var(--theme-muted)}
+body .artist-card-timeline:before{color:#83d8ff}
+body .wr-subsection>.home-section-heading>.text-link,body .layout-schedule .nearest-event>.text-link{border-color:#699ed45c;background:#0b2442;color:#c7eaff}
+body.schedule-page .row.open .bd{background:#0b1b33;color:var(--theme-text)}
+body.schedule-page :is(.cp,.lk,.gallery-more){background:#0e2544;color:#bdeaff;border-color:var(--theme-line)}
+body.schedule-page :is(.ir a,.lk u,.lk .external){color:#90caff}
+body.schedule-page .today-badge{background:#0756d5;color:#fff}
+body .frequency-compose .rose-compose,body .frequency-compose .rose-compose label{color:var(--theme-text);background:transparent}
+body .loading-mark img,body .site-brand img,body .home-layout-footer>img{filter:drop-shadow(0 0 12px #6fc5ff26)}
+@media(max-width:820px){
+ body .site-nav.mobile-nav-ready .site-links{background:#08172ff5;color:var(--theme-text);border-color:var(--theme-line);backdrop-filter:blur(18px)}
+ body .site-nav.mobile-nav-ready .mobile-nav-toggle{background:#112544;border-color:var(--theme-line);color:#d4eeff}
+ body .site-nav.mobile-nav-ready .nav-group>div{border-color:var(--theme-line);background:transparent}
+ body .site-nav.mobile-nav-ready .nav-group>summary[aria-current]{color:var(--theme-accent)}
+}

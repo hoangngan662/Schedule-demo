@@ -19,6 +19,13 @@ document.querySelectorAll('.nav-group').forEach(group => {
 });
 
 const mobileNavigation = matchMedia('(max-width: 820px)');
+const siteHeader=document.querySelector('.site-nav');
+if(siteHeader){
+  const measureHeader=()=>document.documentElement.style.setProperty('--site-nav-height',siteHeader.getBoundingClientRect().height+'px');
+  measureHeader();
+  if('ResizeObserver' in window)new ResizeObserver(measureHeader).observe(siteHeader);
+  window.addEventListener('resize',measureHeader);
+}
 document.querySelectorAll('.site-nav').forEach((nav,index) => {
   const links=nav.querySelector('.site-links');
   if(!links)return;
