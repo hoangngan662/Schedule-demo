@@ -1,4 +1,14 @@
 (() => {
+ const banner=document.querySelector('.artist-banner'),intro=document.querySelector('.artist-intro');
+ const mobileBio=document.createElement('section');mobileBio.className='profile-mobile-bio';mobileBio.setAttribute('aria-label','Thông tin nghệ sĩ');mobileBio.hidden=true;
+ banner.after(mobileBio);
+ const mobileTitle=document.createElement('span');mobileTitle.className='profile-mobile-banner-title';mobileTitle.textContent='Profile';mobileTitle.hidden=true;banner.append(mobileTitle);
+ const mobile=matchMedia('(max-width:820px)');
+ function positionBio(){
+  mobileBio.hidden=!mobile.matches;mobileTitle.hidden=!mobile.matches;
+  if(mobile.matches)mobileBio.append(intro);else banner.append(intro);
+ }
+ positionBio();mobile.addEventListener('change',positionBio);
  const sections=[['journey','journey'],['musics','music'],['film-game','film_game'],['shows','show'],['press','press'],['awards','award']].map(([id,key])=>({id,key}));
  const engines=[];
  const reduced=matchMedia('(prefers-reduced-motion:reduce)');

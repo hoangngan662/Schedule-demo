@@ -1,4 +1,24 @@
 /* Shared midnight / electric-blue theme, loaded after page styles. */
+body.profile-page .artist-section,body.profile-page .artist-section:nth-of-type(even){background:transparent}
+@media(max-width:820px){
+ body.home-brief-demo .home-main>.brief-about{min-height:0;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;padding:28px 0;align-items:center}
+ body.home-brief-demo .home-main>.brief-about .about-image{height:auto;aspect-ratio:4/5}
+ body.home-brief-demo .home-main>.brief-about .about-image>img{height:100%;min-height:0;max-height:none;object-fit:cover;object-position:center 35%}
+ body.home-brief-demo .brief-about .page-button{margin-top:18px}
+}
+@media(max-width:600px){
+ body.home-brief-demo .home-main>.brief-about{grid-template-columns:minmax(0,1fr);gap:22px;padding:24px 0 32px}
+ body.home-brief-demo .home-main>.brief-about .about-image{width:100%;aspect-ratio:4/3;max-height:400px}
+ body.home-brief-demo .home-main>.brief-about>div:last-child{display:block}
+ body.home-brief-demo .brief-about .about-wordmark{text-align:left}
+ body.home-brief-demo .brief-about .about-wordmark>span{font-size:22px}
+ body.home-brief-demo .home-main>.brief-about .about-wordmark h1{font-size:clamp(48px,15vw,72px);margin:8px 0 18px}
+ body.home-brief-demo .home-main>.brief-about dl{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0 0}
+ body.home-brief-demo .brief-about dl>div{min-width:0}
+ body.home-brief-demo .brief-about dd{font-size:14px;overflow-wrap:anywhere}
+ body.home-brief-demo .brief-about dt{font-size:10px}
+ body.home-brief-demo .brief-about .page-button{width:100%;min-width:0;padding:13px 18px}
+}
 @media(min-width:821px){
  body.schedule-page .hero,body .campaigns-banner,body .projects-banner,body .resources-banner{
   height:calc(100svh - var(--site-nav-height,66px));
@@ -85,6 +105,16 @@ body.schedule-page .today-badge{background:#0756d5;color:#fff}
 body .frequency-compose .rose-compose,body .frequency-compose .rose-compose label{color:var(--theme-text);background:transparent}
 body .loading-mark img,body .site-brand img,body .home-layout-footer>img{filter:drop-shadow(0 0 12px #6fc5ff26)}
 @media(max-width:820px){
+ body.home-brief-demo>.brief-hero,body.profile-page .artist-banner{
+  height:auto;min-height:0;max-height:none;aspect-ratio:16/8;box-sizing:border-box;overflow:hidden;
+ }
+ body.home-brief-demo>.brief-hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+ body.profile-page .artist-banner-photo{object-fit:cover}
+ body.profile-page .profile-mobile-bio{padding:24px 5% 30px}
+ body.profile-page .profile-mobile-bio .artist-intro{width:100%;padding:0;box-sizing:border-box}
+ body.profile-page .profile-mobile-bio h1{font-size:clamp(40px,11vw,70px);margin:0 0 15px}
+ body.profile-page .profile-mobile-bio .artist-description{max-width:none}
+ body.profile-page .profile-mobile-banner-title{position:absolute;left:4%;bottom:6%;z-index:1;margin:0;font:500 clamp(40px,10vw,80px)/1 Georgia,serif;color:#fff;text-shadow:0 2px 20px #0006}
  body .site-nav.mobile-nav-ready .site-links{background:#08172ff5;color:var(--theme-text);border-color:var(--theme-line);backdrop-filter:blur(18px)}
  body .site-nav.mobile-nav-ready .mobile-nav-toggle{background:#112544;border-color:var(--theme-line);color:#d4eeff}
  body .site-nav.mobile-nav-ready .nav-group>div{border-color:var(--theme-line);background:transparent}

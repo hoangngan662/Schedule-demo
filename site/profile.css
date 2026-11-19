@@ -17,7 +17,7 @@
 .profile-jump{display:flex;gap:25px;overflow-x:auto;white-space:nowrap;padding:15px 4%;scrollbar-width:thin;font-size:11px}
 .profile-jump a{color:#655c63;text-decoration:none}.profile-jump a:hover{color:#a32443}
 .artist-section{padding:38px 0 45px;scroll-margin-top:66px;overflow:hidden;border-top:1px solid #e8ded8;box-sizing:border-box}
-.artist-section:nth-of-type(even){background:#f5e7eb}
+.artist-section:nth-of-type(even){background:transparent}
 .artist-section-heading{text-align:center;padding:0 20px;margin-bottom:22px}
 .artist-section-heading h2{font:400 clamp(40px,7vw,100px)/1.12 Georgia,serif;letter-spacing:-.035em;margin:12px 0}
 .artist-section-heading p{color:#8b6b79;font-size:12px}
