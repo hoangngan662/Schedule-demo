@@ -23,6 +23,7 @@
   const offset=new Date(Date.UTC(viewY,viewM,1)).getUTCDay(),total=new Date(Date.UTC(viewY,viewM+1,0)).getUTCDate();
   const week=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const count=Math.ceil((offset+total)/7)*7;
+  grid.style.setProperty('--calendar-weeks',String(count/7));
   for(let i=0;i<count;i++){
    const date=new Date(Date.UTC(viewY,viewM,i-offset+1)),dateKey=date.toISOString().slice(0,10),outside=date.getUTCMonth()!==viewM;
    const events=outside?[]:calendarEvents.filter(event=>event.date<=dateKey&&(event.end_date||event.date)>=dateKey);
@@ -46,14 +47,29 @@
  reset.onclick=()=>{viewY=y;viewM=m;renderMonth();};renderMonth();
 
  run(document.querySelector('.nearest-event'),async()=>{
-  const rows=await list('events',{is_published:'eq.true',order:'event_date.asc,start_time.asc.nullslast'});
+  const rows=await list('events',{select:'*,event_images(*)',is_published:'eq.true',order:'event_date.asc,start_time.asc.nullslast'});
   calendarEvents=rows.map(row=>({...row,date:row.event_date,time:row.start_time?.slice(0,5)||'Chưa có giờ'}));renderMonth();
   const todayKey=parts.year+'-'+parts.month+'-'+parts.day;
   const item=rows.find(row=>(row.end_date||row.event_date)>=todayKey),root=document.querySelector('.nearest-event');
   if(!item){empty(root,'Chưa có lịch trình sắp tới.');return;}
   const a=el('a','text-link','Explore Schedule ↗');a.href='schedule.html?month='+item.event_date.slice(0,7)+'#lich';
-  root.replaceChildren(el('span','eyebrow','NEXT UP'),image(item.thumbnail_url,item.name),el('div','next-date',item.event_date.split('-').reverse().join('/')),el('h3','',item.name),el('p','',[item.start_time?.slice(0,5),item.location].filter(Boolean).join(' · ')),a);
-  (item.event_types||[]).forEach(type=>root.append(el('span','brief-pill',type)));
+  const candidates=[];
+  const add=url=>{if(safe(url)&&!candidates.includes(url))candidates.push(url);};
+  const stored=(item.event_images||[]).slice().sort((a,b)=>Number(!!b.is_cover)-Number(!!a.is_cover)||(a.sort_order||0)-(b.sort_order||0));
+  stored.filter(photo=>photo.is_cover).forEach(photo=>add(photo.image_url));
+  stored.filter(photo=>/main/i.test(photo.file_name||'')).forEach(photo=>add(photo.image_url));
+  if(item.drive_folder_url&&typeof resolveDriveImages==='function'){
+   item.thumb=item.thumbnail_url;await resolveDriveImages(item,new Map());add(item.thumb);(item.event_images||[]).forEach(photo=>add(photo.image_url));
+  }
+  add(item.thumbnail_url);stored.forEach(photo=>add(photo.image_url));
+  const media=el('div','upcoming-media'),photo=el('img','');photo.alt=item.name;photo.loading='eager';photo.decoding='async';
+  let candidate=0;
+  function nextImage(){if(candidate<candidates.length){photo.src=candidates[candidate++];}else{media.replaceChildren(el('span','upcoming-image-empty','Ảnh sự kiện đang được cập nhật.'));}}
+  photo.addEventListener('error',nextImage);media.append(photo);nextImage();
+  const info=el('div','upcoming-info'),tags=el('div','upcoming-tags');
+  (item.event_types||[]).forEach(type=>tags.append(el('span','brief-pill',type)));
+  info.append(el('div','next-date',item.event_date.split('-').reverse().join('/')),el('h3','',item.name),el('p','upcoming-location',[item.start_time?.slice(0,5)||'Chưa có giờ',item.location].filter(Boolean).join(' · ')),tags,a);
+  root.replaceChildren(el('span','eyebrow','UPCOMING EVENT'),media,info);
  });
  run($('home-profile-data'),async()=>{
   const rows=await list('artist_profiles',{slug:'eq.bex',is_published:'eq.true',limit:1});const item=rows[0];
@@ -77,9 +93,18 @@
  run($('brief-projects'),async()=>{
   const rows=await list('projects',{select:ProjectData.select,order:'created_at.desc.nullslast,id.desc',limit:2},window.PROJECT_CONFIG);
   const items=rows.map(ProjectData.normalize);
-  const cache=new Map();await Promise.all(items.map(async item=>{if(item.drive_folder_url&&typeof resolveDriveImages==='function'){const source={id:item.id,drive_folder_url:item.drive_folder_url,event_images:item.project_gallery,thumb:item.cover_image_url};await resolveDriveImages(source,cache);item.cover_image_url=source.thumb||item.cover_image_url;}}));
+  const cache=new Map();await Promise.all(items.map(async item=>{if(item.drive_folder_url&&typeof resolveDriveImages==='function'){const source={id:item.id,drive_folder_url:item.drive_folder_url,event_images:item.project_gallery,thumb:item.cover_image_url};await resolveDriveImages(source,cache);item.cover_image_url=source.thumb||item.cover_image_url;item.project_gallery=source.event_images||item.project_gallery;}}));
   $('brief-projects').replaceChildren();
-  items.forEach(item=>{const card=el('article','brief-project');tile(card,item.cover_image_url,item.title,'project.html');card.append(el('p','eyebrow',item.type||''),el('h3','',item.title));$('brief-projects').append(card);});
+  items.forEach(item=>{
+   const card=el('article','brief-project'),link=el('a','brief-image-tile');link.href='project.html';link.setAttribute('aria-label',item.title);
+   const photo=el('img','');photo.alt=item.title;photo.loading='lazy';photo.decoding='async';
+   const sources=[...new Set([item.cover_image_url,...(item.project_gallery||[]).map(p=>p.image_url)].map(ProjectData.imageUrl).filter(Boolean))];let index=0;
+   function nextPhoto(){if(index<sources.length){photo.src=sources[index++];}else{link.replaceChildren(el('span','project-image-empty','Ảnh project đang được cập nhật.'));}}
+   photo.addEventListener('error',nextPhoto);link.append(photo,el('span','brief-image-label',item.title));nextPhoto();
+   card.append(link,el('p','eyebrow',item.type||''),el('h3','',item.title));
+   if(item.by_name?.trim())card.append(el('p','project-author','Project by '+item.by_name.trim()));
+   $('brief-projects').append(card);
+  });
   if(!items.length)empty($('brief-projects'),'Chưa có project.');
  });
  run(document.querySelector('.frequency-log'),async()=>{

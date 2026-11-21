@@ -22,7 +22,7 @@
    list('brand_campaigns',{...publicRows,select:'*,campaign_images(*),campaign_links(*)'}),
    list('resources',{...publicRows,select:'*,resource_images(*)',order:'published_at.desc.nullslast,created_at.desc'}),
    list('resources',{...publicRows,order:'published_at.desc.nullslast,created_at.desc',limit:4}),
-   list('events',{...publicRows,order:'event_date.asc,start_time.asc.nullslast'}),
+   list('events',{...publicRows,select:'*,event_images(*)',order:'event_date.asc,start_time.asc.nullslast'}),
    list('events',{...publicRows,select:'id,name,event_date,thumbnail_url,drive_folder_url,event_images(*)',order:'event_date.desc'}),
    list('projects',{select:ProjectData.select,order:'created_at.desc.nullslast,id.desc',limit:2},window.PROJECT_CONFIG),
    list('projects',{select:ProjectData.select,order:'created_at.desc.nullslast,id.desc'},window.PROJECT_CONFIG),

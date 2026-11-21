@@ -13,7 +13,7 @@
  function showPhoto(index){photoIndex=index;renderPhoto();$('project-lightbox').showModal();$('project-photo-close').focus();}
  function showProject(item){
   const body=$('project-modal-body'),hero=el('div','project-modal-hero');hero.append(image(item.cover_image_url,item.title));
-  const title=el('h2','',item.title);title.id='project-modal-title';hero.append(title,el('p','','by '+(item.by_name||'White Rose')));
+  const title=el('h2','',item.title);title.id='project-modal-title';hero.append(title);if(item.by_name?.trim())hero.append(el('p','project-author','Project by '+item.by_name.trim()));
   const facts=el('dl','project-modal-facts');
   [['Time',item.date],['Region',item.region],['Organizer',({FC:'FC',FS:'Fansite',Individual:'Fan lẻ'})[item.actor]||item.actor],['Status',item.status],['Type',item.type],['Budget',item.budget],['Target',item.target]].forEach(([label,value])=>{if(!value)return;const group=el('div','');group.append(el('dt','',label),el('dd','',String(value)));facts.append(group);});
   body.replaceChildren(hero,facts,el('h3','project-modal-heading','About the project'),el('p','project-modal-description',item.content||'Nội dung đang được cập nhật.'));
@@ -36,6 +36,7 @@
   if(duplicate){button.tabIndex=-1;button.setAttribute('aria-hidden','true');}
   const info=el('div','project-preview-info'),tags=el('div','project-preview-tags');
   info.append(el('h2','',item.title));
+  if(item.by_name?.trim())info.append(el('p','project-author','Project by '+item.by_name.trim()));
   if(item.date)info.append(el('p','',item.date));if(item.region)info.append(el('p','',item.region));
   [item.type,item.status].filter(Boolean).forEach(tag=>tags.append(el('span','',tag)));info.append(tags);
   button.append(image(item.cover_image_url,''),info);button.addEventListener('click',event=>{if(button.closest('.project-marquee-row')?.dataset.dragged==='true'){event.preventDefault();return;}showProject(item);});return button;

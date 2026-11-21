@@ -1,5 +1,20 @@
 (function(root){
   const select='id,title,type,by_name,actor,descr,region,date,budget,target,link,img,gallery,created_at';
+  function imageUrl(value){
+    if(typeof value!=='string')return '';
+    const text=value.trim();
+    if(!/^(https?:\/\/|assets\/)/i.test(text))return '';
+    if(!/^https?:\/\//i.test(text))return text;
+    try{
+      const url=new URL(text);
+      if(url.hostname==='drive.google.com'){
+        if(url.pathname.includes('/folders/'))return '';
+        const id=url.pathname.match(/\/file\/d\/([^/]+)/)?.[1]||url.searchParams.get('id');
+        if(id){const params=new URLSearchParams({id,sz:'w1600'});const resource=url.searchParams.get('resourcekey');if(resource)params.set('resourcekey',resource);return 'https://drive.google.com/thumbnail?'+params;}
+      }
+    }catch{return '';}
+    return text;
+  }
   function normalize(row) {
     let gallery=row.gallery;
     for(let i=0;i<2&&typeof gallery==='string';i++){try{gallery=JSON.parse(gallery);}catch{break;}}
@@ -9,8 +24,8 @@
     if(gallery&&!Array.isArray(gallery)&&typeof gallery==='object')gallery=gallery.items||gallery.images||gallery.gallery||[];
     const seen=new Set();
     gallery=(Array.isArray(gallery)?gallery:[]).map(image=>{
-      if(typeof image==='string')return {image_url:image};
-      if(image&&typeof image==='object')return {image_url:image.image_url||image.url||image.src||image.img||image.image,caption:image.caption||image.label||image.title||image.name||''};
+      if(typeof image==='string')return {image_url:imageUrl(image)};
+      if(image&&typeof image==='object')return {image_url:imageUrl(image.image_url||image.url||image.src||image.img||image.image),caption:image.caption||image.label||image.title||image.name||''};
       return null;
     }).filter(image=>{
       if(!image||typeof image.image_url!=='string'||!/^(https?:\/\/|assets\/)/.test(image.image_url)||seen.has(image.image_url))return false;
@@ -18,7 +33,7 @@
     });
     const description=typeof row.descr==='string'?row.descr:'';
     return {...row,summary:description.length>180?description.slice(0,180)+'…':description,content:description,
-      cover_image_url:row.img||gallery[0]?.image_url,website_url:row.link,project_gallery:gallery,drive_folder_url:driveFolderUrl};
+      cover_image_url:imageUrl(row.img)||gallery[0]?.image_url,website_url:row.link,project_gallery:gallery,drive_folder_url:driveFolderUrl};
   }
-  root.ProjectData={select,normalize};
+  root.ProjectData={select,normalize,imageUrl};
 })(globalThis);
