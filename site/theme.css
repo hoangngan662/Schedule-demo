@@ -178,3 +178,18 @@ body.home-brief-demo .layout-schedule .upcoming-media>img{display:block;width:10
 
 body .brief-project .brief-image-tile{background:#0a1b34}
 body .project-image-empty{display:grid;place-items:center;height:100%;padding:24px;text-align:center;color:var(--theme-muted);font-size:13px}
+
+/* The Project and Signal panels share content and action baselines. */
+@media(min-width:821px){
+ body.home-brief-demo .wr-top-layout{align-items:stretch}
+ body.home-brief-demo .wr-top-layout>.wr-subsection{display:grid;grid-template-rows:auto minmax(0,1fr) auto;justify-content:normal;min-height:0;padding-top:0;padding-bottom:24px}
+ body.home-brief-demo .wr-top-layout>.wr-subsection>.home-section-heading{margin:0 0 24px}
+ body.home-brief-demo .wr-top-layout>.wr-subsection>.text-link{margin-top:24px;margin-bottom:0}
+ body.home-brief-demo .wr-top-layout .brief-projects{align-items:stretch}
+ body.home-brief-demo .wr-top-layout .frequency-log{height:0;min-height:100%;max-height:none;overflow-y:auto;overscroll-behavior:contain;box-sizing:border-box;border:1px solid var(--theme-line);border-radius:12px;padding:20px;scrollbar-width:thin;scrollbar-color:#39658b transparent}
+ body.home-brief-demo .wr-top-layout .frequency-log ol{margin:0}
+}
+@media(max-width:820px){
+ body.home-brief-demo .wr-top-layout>.wr-subsection{min-height:0;padding-top:0;padding-bottom:24px}
+ body.home-brief-demo .wr-top-layout .frequency-log{height:auto;min-height:0;max-height:480px;overflow-y:auto;overscroll-behavior:contain}
+}

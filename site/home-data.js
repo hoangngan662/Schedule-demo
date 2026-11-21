@@ -108,7 +108,7 @@
   if(!items.length)empty($('brief-projects'),'Chưa có project.');
  });
  run(document.querySelector('.frequency-log'),async()=>{
-  const rows=await createWishesClient(window.WISHES_CONFIG).list({limit:3,offset:0});
+  const rows=await createWishesClient(window.WISHES_CONFIG).list({limit:30,offset:0});
   const root=document.querySelector('.frequency-log');root.replaceChildren();const ol=el('ol','');
   rows.forEach(row=>{const li=el('li','');const date=Date.parse(row.created_at);li.append(el('time','',Number.isFinite(date)?new Intl.DateTimeFormat('vi-VN',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Ho_Chi_Minh'}).format(date):''),el('span','signal-index',row.name||'Ẩn danh'),el('p','',row.message),el('span','','♡'));ol.append(li);});root.append(ol);if(!rows.length)empty(root,'Chưa có lời nhắn.');
  });

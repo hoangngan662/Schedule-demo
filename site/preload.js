@@ -26,7 +26,7 @@
    list('events',{...publicRows,select:'id,name,event_date,thumbnail_url,drive_folder_url,event_images(*)',order:'event_date.desc'}),
    list('projects',{select:ProjectData.select,order:'created_at.desc.nullslast,id.desc',limit:2},window.PROJECT_CONFIG),
    list('projects',{select:ProjectData.select,order:'created_at.desc.nullslast,id.desc'},window.PROJECT_CONFIG),
-   createWishesClient(window.WISHES_CONFIG).list({limit:3,offset:0}),
+   createWishesClient(window.WISHES_CONFIG).list({limit:30,offset:0}),
    createWishesClient(window.WISHES_CONFIG).list({limit:5,offset:0}),
    import('../supabase/event-client.mjs').then(module=>module.fetchPublishedEvents())
   ];
